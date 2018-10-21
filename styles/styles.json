@@ -15,5 +15,15 @@
     "color": "#333333",
     "marginBottom": 5,
   },
-  
+
+  "infoBarFont": {
+        "color": "#003452", /*naestvedBlueDark*/
+        "fontWeight": "bold",
+        "fontSize": 20,
+        "padding": 10
+    },
+    "infoBarBorder": {
+        "borderRightWidth": 2,
+        "borderRightColor": "#003452", /*naestvedBlueDark*/
+    }
 }

@@ -1,9 +1,12 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+//TODO Fjern, hvis jeg klarer det fint uden:
+// import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 
-import HomeScreen from '../screens/HomeScreen';
-import LoginScreen from '../screens/LoginScreen';
+import HomeScreen from '../containers/HomeScreen';
+import InformationScreen from '../containers/InformationScreen';
+
+import TabBarIcon from '../components/TabBarIcon';
 
 import Colors from "../constants/Colors"
 
@@ -11,43 +14,41 @@ const HomeStack = createStackNavigator({
 	Home: HomeScreen,
 });
 
-//TODO: Delete
-// HomeStack.navigationOptions = {
-// 	tabBarLabel: 'Home',
-// 	headerStyle:{
-// 		backgroundColor: 'black'
-// 	},
-// }
-
 const InfoStack = createStackNavigator({
-	Info: LoginScreen,
+	Info: InformationScreen,
 });
 
-const optionsForTabBar = {
-    color: 'white',
-    labelStyle: {
-    	fontSize: 12,
-    },
-    style: {
-    	backgroundColor: 'black',
-    },
-}
-
-export default createMaterialBottomTabNavigator({
-		Home: {screen: HomeStack},
+export default createBottomTabNavigator({
+    Home: {screen: HomeStack},
 		Info: {screen: InfoStack}
 	},
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Info') {
+          iconName = 'info';
+        } 
+        else if (routeName === 'Home') {
+          iconName = 'home';
+        }
+        return <TabBarIcon name={iconName} size={23} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: Colors.white,
+      inactiveTintColor: Colors.naestvedBlueDark,
+      labelStyle: {
+        fontSize: 13,
+      },
+      style: {
+        backgroundColor: Colors.tabBar,
+      },
+    },
+  },
 	{
-  		initialRouteName: 'Home',
-  		title: 'sdkfh',
-  		activeColor: '#F44336',
-  		barStyle: {
-  			backgroundColor: Colors.tabBar}
+  	barStyle: {
+  		backgroundColor: Colors.tabBar}
 	},
-	// {
-	// 	tabBarOptions: optionsForTabBar,
-	// 	// navigationOptions: {
-	// 	// 	title: 'Rune'
-	// 	// }
-	// }
 );
