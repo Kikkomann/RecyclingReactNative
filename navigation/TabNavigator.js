@@ -19,8 +19,8 @@ const InfoStack = createStackNavigator({
 });
 
 export default createBottomTabNavigator({
-    Home: {screen: HomeStack},
-		Info: {screen: InfoStack}
+    Info: InfoStack,
+    Home: HomeStack
 	},
   {
     navigationOptions: ({ navigation }) => ({

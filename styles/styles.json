@@ -1,7 +1,6 @@
 {
   "container": {
     "flex": 1,
-    "justifyContent": "center",
     "alignItems": "center",
     "backgroundColor": "#F5FCFF",
   },
@@ -14,6 +13,10 @@
     "textAlign": "center",
     "color": "#333333",
     "marginBottom": 5,
+  },
+
+  "infoBar": {
+    "paddingTop": 10
   },
 
   "infoBarFont": {
