@@ -19,11 +19,13 @@ export default class InfoBar extends React.Component {
 
   render() {
     return (
-      <View flexDirection='row' style={Styles.infoBar}>
-      	  <InfoBarText text={strings.infoBar.option1} withBorder={true} onPressed={this.props.onGreyZonePressed}/>
-      	  <InfoBarText text={strings.infoBar.option2} withBorder={true} onPressed={this.props.onTravelPressed}/>
-      	  <InfoBarText text={strings.infoBar.option3} onPressed={this.props.onTenTipsPressed}/>
-      </View>
+        <View flexDirection='row' style={Styles.infoBar}>
+          <InfoBarText text={strings.infoBar.greyZone} withBorder={true} onPressed={this.props.onGreyZonePressed}/>
+          <InfoBarText text={strings.infoBar.trashTravel} withBorder={true} onPressed={this.props.onTravelPressed}/>
+          <InfoBarText text={strings.infoBar.tenTips} onPressed={this.props.onTenTipsPressed}/>
+        </View>
+      
+      
     );
   }
 }
