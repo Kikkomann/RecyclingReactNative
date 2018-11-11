@@ -14,7 +14,6 @@ export default class InfoBarText extends React.Component {
   }
   
   _onTabBarPress = () => {
-    console.log("CONSOLE:LOG");
     this.props.onPressed();
   }
 
