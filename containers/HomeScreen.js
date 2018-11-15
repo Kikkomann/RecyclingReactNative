@@ -10,7 +10,8 @@ import {
 } from "react-native";
 
 import styles from "../styles/styles";
-import firebase from "react-native-firebase";
+import firebase, { crashlytics } from "react-native-firebase";
+
 
 export default class HomeScreen extends Component {
    constructor(props) {
@@ -28,7 +29,7 @@ export default class HomeScreen extends Component {
    }
 
    onCodeEntered() {
-      console.log("Not implemented");
+      firebase.crashlytics().crash();
    }
 
    componentDidMount() {
