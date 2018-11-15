@@ -1,38 +1,83 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
-  ScrollView,
-  StyleSheet,
-  Platform,
-  Text,
-  TextInput,
-  Image,
-  View,
-} from 'react-native';
-import { AreaChart, Grid } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
+   ListView,
+   Text,
+   TextInput,
+   Picker,
+   View,
+   ScrollView,
+   Button
+} from "react-native";
 
-import styles from '../styles/styles';
+import styles from "../styles/styles";
+import firebase from "react-native-firebase";
 
 export default class HomeScreen extends Component {
-  render() {
-    const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-    return (
-      <AreaChart
-          style={{ height: 200 }}
-          data={ data }
-          contentInset={{ top: 30, bottom: 30 }}
-          curve={ shape.curveNatural }
-          svg={{ fill: 'rgba(134, 65, 244, 0.8)' }} >
-          <Grid/>
-      </AreaChart>
-    );
-  }
+   constructor(props) {
+      super(props);
+
+      this.state = {
+         dataSource: [{ title: "Test", _key: "keyTest" }]
+      };
+      this.hubsRef = firebase
+         .app()
+         .database()
+         .ref("Hub");
+
+      this.onCodeEntered = this.onCodeEntered.bind(this);
+   }
+
+   onCodeEntered() {
+      console.log("Not implemented");
+   }
+
+   componentDidMount() {
+      this.listenForItems(this.hubsRef);
+   }
+
+   listenForItems(itemsRef) {
+         itemsRef.once("value", snap => {
+            // get children as an array
+            var items = [];
+            snap.forEach(child => {
+               items.push({
+                  title: child.val().Name,
+                  _key: child.key
+               });
+            });
+            this.setState({
+               dataSource: items
+            });
+         });
+      }
+
+   render() {
+      return (
+         <View style={styles.container}>
+            {/* <ScrollView keyboardShouldPersistTaps="handled">
+               <TextInput
+                  onBlur={() => console.log("blur")}
+                  style={{ borderColor: "black", borderWidth: 2 }}
+                  keyboardType="numeric"
+                  maxLength={7}
+               />
+            </ScrollView> */}
+            <Picker
+               style={{ height: 50, width: 100 }}
+               /*onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}*/
+            >
+               {this.state.dataSource.map((item, index) => {
+                  return (
+                     <Picker.Item
+                        label={item.title}
+                        value={item.title}
+                        key={item._key}
+                     />
+                  );
+               })}
+            </Picker>
+            <Button title="Tryk" onPress={this.onCodeEntered} />
+         </View>
+      );
+   }
 }
-
-
-
-
-
-
-
-
