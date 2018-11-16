@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import {
    ListView,
    Text,
@@ -10,15 +11,16 @@ import {
 } from "react-native";
 
 import styles from "../styles/styles";
-import firebase, { crashlytics } from "react-native-firebase";
+import firebase from "react-native-firebase";
 
+import { fetchHubs } from '../actions/hubs/getAll';
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
    constructor(props) {
       super(props);
 
       this.state = {
-         dataSource: [{ title: "Test", _key: "keyTest" }]
+         dataSource: ["null", "æsdfkh"],
       };
       this.hubsRef = firebase
          .app()
@@ -46,6 +48,7 @@ export default class HomeScreen extends Component {
                   _key: child.key
                });
             });
+            //TODO: Her skal sendes action. 
             this.setState({
                dataSource: items
             });
@@ -68,11 +71,12 @@ export default class HomeScreen extends Component {
                /*onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}*/
             >
                {this.state.dataSource.map((item, index) => {
+                  //TODO: husk at lave om, så de passer med, hvad der skal hentes- også i reducer og action-payload
                   return (
                      <Picker.Item
-                        label={item.title}
-                        value={item.title}
-                        key={item._key}
+                        label={item}
+                        value={item}
+                        key={Math.random()}
                      />
                   );
                })}
@@ -82,3 +86,13 @@ export default class HomeScreen extends Component {
       );
    }
 }
+
+const mapStateToProps = state => ({
+   dataSource: state.dataSource,
+ });
+ 
+ const mapDispatchToProps = {
+   fetchHubs,
+ };
+ 
+ export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
