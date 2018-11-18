@@ -1,14 +1,14 @@
 import types from "../constants/actionTypes";
 
-const initialState = {
-   dataSource: []
+const INITIAL_STATE = {
+   hubs: []
 };
 
-export default (state = initialState, action) => {
+export default (state = INITIAL_STATE, action) => {
    switch (action.type) {
       case types.APP_START_HUBS_GETALL: {
          return {
-            dataSource: ["dfjnjn", "dksjf"]
+            hubs: [action.hubs[0], action.hubs[1]]
          };
       }
       default: {
@@ -16,28 +16,3 @@ export default (state = initialState, action) => {
       }
    }
 };
-
-//   const initialState = {
-//     hubs: [],
-//   };
-//   ​
-//  export default function hubReducer(state = initialState, action) {
-//     switch (action.type) {
-//       case APP_START_HUBS_GETALL:
-//         return Object.assign({}, state, {
-//           hubs: action.filter
-//         })
-//     //   case ADD_TODO:
-//     //     return Object.assign({}, state, {
-//     //       todos: [
-//     //         ...state.todos,
-//     //         {
-//     //           text: action.text,
-//     //           completed: false
-//     //         }
-//     //       ]
-//     //     })
-//       default:
-//         return state
-//     }
-//   }

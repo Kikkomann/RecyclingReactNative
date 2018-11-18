@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import {
    ListView,
    Text,
@@ -7,21 +7,18 @@ import {
    Picker,
    View,
    ScrollView,
-   Button
+   Button,
+   TouchableHighlight,
 } from "react-native";
 
 import styles from "../styles/styles";
 import firebase from "react-native-firebase";
 
-import { fetchHubs } from '../actions/hubs/getAll';
+import { getAllHubs } from "../actions/getAll";
 
 class HomeScreen extends Component {
    constructor(props) {
       super(props);
-
-      this.state = {
-         dataSource: ["null", "æsdfkh"],
-      };
       this.hubsRef = firebase
          .app()
          .database()
@@ -31,14 +28,17 @@ class HomeScreen extends Component {
    }
 
    onCodeEntered() {
-      firebase.crashlytics().crash();
+      console.log("Not implemented");
+      this.props.fetchHubs([Math.random(), Math.random()]);
+      // firebase.crashlytics().crash();
    }
 
    componentDidMount() {
-      this.listenForItems(this.hubsRef);
+    //   this.listenForItems(this.hubsRef);
    }
 
    listenForItems(itemsRef) {
+      try {
          itemsRef.once("value", snap => {
             // get children as an array
             var items = [];
@@ -48,16 +48,26 @@ class HomeScreen extends Component {
                   _key: child.key
                });
             });
-            //TODO: Her skal sendes action. 
-            this.setState({
-               dataSource: items
-            });
+            //TODO: Her skal sendes action.
+            debugger;
+            console.log("ADjfhbad")
+            this.props.getAllHubs(items);
+            // this.setState({
+            //    hubs: items
+            // });
          });
+      } catch (error) {
+         console.log(error);
       }
+      
+   }
 
    render() {
+      let { hubs } = this.props.hubs;
+      let hubsFound = !!hubs.length;
       return (
          <View style={styles.container}>
+         <Text>{hubs.toString()}</Text>
             {/* <ScrollView keyboardShouldPersistTaps="handled">
                <TextInput
                   onBlur={() => console.log("blur")}
@@ -66,33 +76,57 @@ class HomeScreen extends Component {
                   maxLength={7}
                />
             </ScrollView> */}
-            <Picker
+            {/* <Picker
                style={{ height: 50, width: 100 }}
-               /*onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}*/
+               /*onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}
             >
-               {this.state.dataSource.map((item, index) => {
-                  //TODO: husk at lave om, så de passer med, hvad der skal hentes- også i reducer og action-payload
+               {hubs.map((item, index) => {
                   return (
                      <Picker.Item
-                        label={item}
-                        value={item}
-                        key={Math.random()}
+                        label={hubsFound ? item.title : "No hubs found"}
+                        value={hubsFound ? item.title : "No hubs found"}
+                        key={hubsFound ? item._key : -1}
                      />
                   );
                })}
-            </Picker>
+            </Picker> */}
             <Button title="Tryk" onPress={this.onCodeEntered} />
          </View>
       );
    }
 }
 
+//  function mapStateToProps(state) {
+//    return {
+//       hubs: state.hubs
+//    }
+// }
+
+// HomeScreen.propTypes = {
+//    decreaseCount: PropTypes.func.isRequired,
+//    increaseCount: PropTypes.func.isRequired,
+//    value: PropTypes.number.isRequired,
+//  };
+
 const mapStateToProps = state => ({
-   dataSource: state.dataSource,
- });
+   hubs: state.hubs
+});
+
+function mapDispatchToProps(dispatch) {
+   return {
+      getAllHubs
+   }
+}
+
+// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+
+export default connect(mapStateToProps, {
+   fetchHubs: getAllHubs,
+})(HomeScreen);
+
+
+
  
- const mapDispatchToProps = {
-   fetchHubs,
- };
+
  
- export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+//  export default connect(mapStateToProps, mapDispatchToProps)(App);

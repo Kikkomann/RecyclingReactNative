@@ -18,7 +18,6 @@ export default class Travel extends React.Component {
   	  		var key = snapshot.key; // "ada"
           var childKey = snapshot.child("name/last").key; // "last"
           if (childKey) {
-            debugger;
           }
   		});
       } catch (error) {
