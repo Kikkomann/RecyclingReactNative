@@ -1,4 +1,4 @@
-import types from "../constants/actionTypes";
+import * as types from "../actions/types";
 
 const INITIAL_STATE = {
    hubs: []

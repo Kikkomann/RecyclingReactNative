@@ -8,7 +8,7 @@ import {
    View,
    ScrollView,
    Button,
-   TouchableHighlight,
+   TouchableHighlight
 } from "react-native";
 
 import styles from "../styles/styles";
@@ -34,7 +34,7 @@ class HomeScreen extends Component {
    }
 
    componentDidMount() {
-    //   this.listenForItems(this.hubsRef);
+      //   this.listenForItems(this.hubsRef);
    }
 
    listenForItems(itemsRef) {
@@ -50,7 +50,7 @@ class HomeScreen extends Component {
             });
             //TODO: Her skal sendes action.
             debugger;
-            console.log("ADjfhbad")
+            console.log("ADjfhbad");
             this.props.getAllHubs(items);
             // this.setState({
             //    hubs: items
@@ -59,7 +59,6 @@ class HomeScreen extends Component {
       } catch (error) {
          console.log(error);
       }
-      
    }
 
    render() {
@@ -67,7 +66,7 @@ class HomeScreen extends Component {
       let hubsFound = !!hubs.length;
       return (
          <View style={styles.container}>
-         <Text>{hubs.toString()}</Text>
+            <Text>{hubs.toString()}</Text>
             {/* <ScrollView keyboardShouldPersistTaps="handled">
                <TextInput
                   onBlur={() => console.log("blur")}
@@ -96,12 +95,6 @@ class HomeScreen extends Component {
    }
 }
 
-//  function mapStateToProps(state) {
-//    return {
-//       hubs: state.hubs
-//    }
-// }
-
 // HomeScreen.propTypes = {
 //    decreaseCount: PropTypes.func.isRequired,
 //    increaseCount: PropTypes.func.isRequired,
@@ -112,21 +105,11 @@ const mapStateToProps = state => ({
    hubs: state.hubs
 });
 
-function mapDispatchToProps(dispatch) {
-   return {
-      getAllHubs
-   }
-}
+const mapDispatchToProps = {
+   fetchHubs: getAllHubs
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
-
-export default connect(mapStateToProps, {
-   fetchHubs: getAllHubs,
-})(HomeScreen);
-
-
-
- 
-
- 
-//  export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(HomeScreen);
