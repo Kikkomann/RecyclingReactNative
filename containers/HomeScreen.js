@@ -28,8 +28,7 @@ class HomeScreen extends Component {
    }
 
    onCodeEntered() {
-      console.log("Not implemented");
-      this.props.fetchHubs([Math.random(), Math.random()]);
+      this.props.fetchHubs();
       // firebase.crashlytics().crash();
    }
 
@@ -66,7 +65,7 @@ class HomeScreen extends Component {
       let hubsFound = !!hubs.length;
       return (
          <View style={styles.container}>
-            <Text>{hubs.toString()}</Text>
+            <Text>{JSON.stringify(hubs)}</Text>
             {/* <ScrollView keyboardShouldPersistTaps="handled">
                <TextInput
                   onBlur={() => console.log("blur")}
@@ -75,20 +74,20 @@ class HomeScreen extends Component {
                   maxLength={7}
                />
             </ScrollView> */}
-            {/* <Picker
+            <Picker
                style={{ height: 50, width: 100 }}
-               /*onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}
+               /*onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}*/
             >
                {hubs.map((item, index) => {
                   return (
                      <Picker.Item
-                        label={hubsFound ? item.title : "No hubs found"}
-                        value={hubsFound ? item.title : "No hubs found"}
-                        key={hubsFound ? item._key : -1}
+                        label={hubsFound ? item.name : "No hubs found"}
+                        value={hubsFound ? item.name : "No hubs found"}
+                        key={hubsFound ? item.id : -1}
                      />
                   );
                })}
-            </Picker> */}
+            </Picker>
             <Button title="Tryk" onPress={this.onCodeEntered} />
          </View>
       );

@@ -20,7 +20,8 @@
     "react-navigation-material-bottom-tabs": "^0.4.0",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",
-    "redux-saga": "^0.16.2"
+    "redux-saga": "^0.16.2",
+    "redux-saga-firebase": "^0.14.1"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
