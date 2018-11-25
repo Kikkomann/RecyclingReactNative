@@ -8,20 +8,30 @@ function* doGetAllUsers() {
     let fetchTriesCounter = 0;
     try {
         const reduxSagaFirebase = new ReduxSagaFirebase(firebase.app());
-        const users = yield call(reduxSagaFirebase.database.read, "User/");
-        let userModels = Object.values(users).map(user => ({
-            id: user.id,
-            name: user.Name
-        }));
+        const users = yield call(reduxSagaFirebase.database.read, "Users/");
+        let userModels = [];
+        for (let [key, value] of Object.entries(users)) {
+            userModels.push({
+                id: key,
+                firstName: value.Name.First,
+                lastName: value.Name.Last,
+            });
+        }
+        // let userModels = Object.values(users).map(user => ({
+        //     id: user,
+        //     firstName: user.Name.First,
+        //     lastName: user.Name.Last
+        // }));
+        // debugger;
         // dispatch a success action to the store with the users
-        yield put({ type: types.APP_START_USERS_GETALL_SUCCESS, userModels });
+        yield put({ type: types.USERS_GETALL_SUCCESS, userModels });
     } catch (error) {
         // dispatch a failure action to the store with the error
-        yield put({ type: types.APP_START_USERS_GETALL_ERROR, error });
+        yield put({ type: types.USERS_GETALL_ERROR, error });
     }
 }
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* getAllUsers() {
-    yield takeLatest(types.APP_START_USERS_GETALL_REQUEST, doGetAllUsers);
+    yield takeLatest(types.USERS_GETALL_REQUEST, doGetAllUsers);
 }

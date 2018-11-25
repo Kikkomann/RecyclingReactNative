@@ -47,6 +47,14 @@ class LoginScreen extends React.Component {
                     onValueChange={this.onCodeEntered}
                 /> */}
                 <Button onPress={this.onChooseUser} text="Vælg" />
+                <View>
+                <Text
+                    style={Styles.registerLink}
+                    onPress={() => this.props.navigation.navigate("Register")}
+                >
+                    Er du ikke på listen? Så klik her.
+                </Text>
+            </View>
             </View>
         );
     }
@@ -64,46 +72,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(LoginScreen);
-
-// class SignInScreen extends React.Component {
-// 	static navigationOptions = {
-// 	  title: 'Please sign in',
-// 	};
-
-// 	render() {
-// 	  return (
-// 		<View style={styles.container}>
-// 		  <Button title="Sign in!" onPress={this._signInAsync} />
-// 		</View>
-// 	  );
-// 	}
-
-// 	_signInAsync = async () => {
-// 	  await AsyncStorage.setItem('userToken', 'abc');
-// 	  this.props.navigation.navigate('App');
-// 	};
-//   }
-
-//   class HomeScreen extends React.Component {
-// 	static navigationOptions = {
-// 	  title: 'Welcome to the app!',
-// 	};
-
-// 	render() {
-// 	  return (
-// 		<View style={styles.container}>
-// 		  <Button title="Show me more of the app" onPress={this._showMoreApp} />
-// 		  <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
-// 		</View>
-// 	  );
-// 	}
-
-// 	_showMoreApp = () => {
-// 	  this.props.navigation.navigate('Other');
-// 	};
-
-// 	_signOutAsync = async () => {
-// 	  await AsyncStorage.clear();
-// 	  this.props.navigation.navigate('Auth');
-// 	};
-//   }

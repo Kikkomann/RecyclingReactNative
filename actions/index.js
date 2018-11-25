@@ -1,2 +1,3 @@
 export * from "./hubs/getAll";
-export * from "./users/getAll";
+export * from "./user/getAll";
+export * from "./user/create";

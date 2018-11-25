@@ -14,14 +14,14 @@ function* doGetAllHubs() {
             name: hub.Name
         }));
         // dispatch a success action to the store with the hubs
-        yield put({ type: types.APP_START_HUBS_GETALL_SUCCESS, hubModels });
+        yield put({ type: HUBS_GETALL_SUCCESS, hubModels });
     } catch (error) {
         // dispatch a failure action to the store with the error
-        yield put({ type: types.APP_START_HUBS_GETALL_ERROR, error });
+        yield put({ type: HUBS_GETALL_ERROR, error });
     }
 }
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* getAllHubs() {
-    yield takeLatest(types.APP_START_HUBS_GETALL_REQUEST, doGetAllHubs);
+    yield takeLatest(types.HUBS_GETALL_REQUEST, doGetAllHubs);
 }

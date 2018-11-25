@@ -1,49 +1,64 @@
 import React from "react";
 import { View, Picker } from "react-native";
+import { connect } from "react-redux";
 import { TextField } from "react-native-material-textfield";
 import { Checkbox, Button } from "react-native-material-ui";
+import createUser from "../actions/user/create";
 
 import Styles from "../styles/styles";
 
-export default class RegisterScreen extends React.Component {
+class RegisterScreen extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            weight: "",
-            isClean: false,
-            trashType: "SizeEnum.REST"
+            firstName: "",
+            lastName: "",
+            hubId: ""
         };
 
         this.onAddTrash = this.onAddTrash.bind(this);
     }
 
-    onAddTrash() {
-        let { weight, isClean, trashType } = this.state;
+    onAddUser() {
+        let { firstName, lastName, hubId } = this.state;
+        debugger;
+        this.props.createUser(firstName, lastName, hubId);
     }
 
     render() {
-        let { weight } = this.state;
+        let { firstName, lastName, hubId } = this.state;
         return (
             <View style={Styles.container}>
-                <View style={{ flex: 1, flexDirection: 'row'}}>
-                    <TextField 
-                        label="Vægt"
-                        value={weight}
-                        onChangeText={weight => this.setState({ weight })}
+                <View>
+                    <TextField
+                        label="Fornavn"
+                        value={firstName}
+                        onChangeText={firstName => this.setState({ firstName })}
                     />
-                    <Checkbox
-                        label="I Agree"
-                        style={{width: 10}}
-                        value="agree"
-                        onCheck={clean => this.setState({ clean })}
-                        checked={this.state.isClean}
+                    <TextField
+                        label="Efternavn"
+                        value={lastName}
+                        onChangeText={lastName => this.setState({ lastName })}
                     />
                 </View>
                 <View>
-                    <Button onPress={this.onAddTrash} text="Tilføj" />
+                    <Button onPress={this.onAddUser} text="Tilføj" />
                 </View>
             </View>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    hubs: state.users
+});
+
+const mapDispatchToProps = {
+    createUser: createUser
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterScreen);

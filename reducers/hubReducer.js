@@ -6,21 +6,21 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case types.APP_START_HUBS_GETALL_REQUEST: {
+        case types.HUBS_GETALL_REQUEST: {
             return {
                 ...state,
                 fetching: true,
                 error: null
             };
         }
-        case types.APP_START_HUBS_GETALL_SUCCESS: {
+        case types.HUBS_GETALL_SUCCESS: {
             return {
                 hubs: action.hubModels,
                 fetching: false
             };
         }
 
-        case types.APP_START_HUBS_GETALL_ERROR: {
+        case types.HUBS_GETALL_ERROR: {
             return {
                 ...state,
                 fetching: false,
