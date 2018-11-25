@@ -1,7 +1,7 @@
 {
     "container": {
         "flex": 1,
-        "alignItem": "center",
+        "alignItems": "center",
         "backgroundColor": "#F5FCFF"
     },
     "welcome": {
@@ -32,11 +32,19 @@
 
     "picker": {
        "width": 200,
-       "height": 50
+       "height": 50,
+       "padding": 100
     },
 
     "registerLink": {
         "color": "blue",
         "textDecorationLine": "underline",
+    },
+
+    "loginHeaderText": {
+        "fontSize": 20,
+        "fontWeight": "bold",
+        "margin": 10,
+        "alignSelf": "flex-start"
     }
 }

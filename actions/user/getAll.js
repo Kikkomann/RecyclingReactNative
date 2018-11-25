@@ -1,8 +1,7 @@
 import * as types from "../types";
 
-export function getAllUsers(users) {
+export function getAllUsers() {
     return {
-        type: types.USERS_GETALL_REQUEST,
-        users: users
+        type: types.USERS_GETALL_REQUEST
     };
 }

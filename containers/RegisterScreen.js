@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Picker } from "react-native";
+import { View, Picker, Text } from "react-native";
 import { connect } from "react-redux";
 import { TextField } from "react-native-material-textfield";
-import { Checkbox, Button } from "react-native-material-ui";
-import createUser from "../actions/user/create";
+import RNPickerSelect from "react-native-picker-select";
+import { Button } from "react-native-material-ui";
+import { create } from "../actions/user/create";
 
 import Styles from "../styles/styles";
 
@@ -17,21 +18,34 @@ class RegisterScreen extends React.Component {
             hubId: ""
         };
 
-        this.onAddTrash = this.onAddTrash.bind(this);
+        this.onAddUser = this.onAddUser.bind(this);
     }
+
+    static navigationOptions = {
+        header: null
+    };
 
     onAddUser() {
         let { firstName, lastName, hubId } = this.state;
-        debugger;
         this.props.createUser(firstName, lastName, hubId);
     }
 
     render() {
         let { firstName, lastName, hubId } = this.state;
+        let { allHubs } = this.props.hubs;
+        let hubsFound = !!allHubs.length;
+        let hubNames = hubsFound
+            ? allHubs.map(hubItem => ({
+                  label: hubItem.name,
+                  value: hubItem
+              }))
+            : [{ label: "Loading hubs...", value: "loading" }];
         return (
-            <View style={Styles.container}>
+            <View style={[Styles.container, { justifyContent: "center" }]}>
+                <Text style={Styles.loginHeaderText}> Opret ny bruger </Text>
                 <View>
                     <TextField
+                        style={{ width: 10 }}
                         label="Fornavn"
                         value={firstName}
                         onChangeText={firstName => this.setState({ firstName })}
@@ -41,9 +55,27 @@ class RegisterScreen extends React.Component {
                         value={lastName}
                         onChangeText={lastName => this.setState({ lastName })}
                     />
-                </View>
-                <View>
+                    <RNPickerSelect
+                        placeholder={{
+                            label: "Vælg tilhørende hub",
+                            value: "hub"
+                        }}
+                        items={hubNames}
+                        style={Styles.picker}
+                        enabled={!!hubsFound}
+                        onValueChange={hub => this.setState({ hubId: hub.id })}
+                    />
                     <Button onPress={this.onAddUser} text="Tilføj" />
+                </View>
+
+                <View>
+                    <Text
+                        style={Styles.registerLink}
+                        onPress={() =>
+                            this.props.navigation.navigate("SignIn")
+                        }>
+                        Tilbage til valg af bruger? Klik her.
+                    </Text>
                 </View>
             </View>
         );
@@ -51,11 +83,11 @@ class RegisterScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    hubs: state.users
+    hubs: state.hubs
 });
 
 const mapDispatchToProps = {
-    createUser: createUser
+    createUser: create
 };
 
 export default connect(

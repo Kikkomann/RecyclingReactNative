@@ -24,12 +24,12 @@ class HomeScreen extends Component {
     }
 
     render() {
-        let { hubs } = this.props.hubs;
-        let hubsFound = !!hubs.length;
+        let { allHubs } = this.props.hubs;
+        let hubsFound = !!allHubs.length;
         let hubNames = hubsFound
-            ? hubs.map(hubItem => ({
+            ? allHubs.map(hubItem => ({
                   label: hubItem.name,
-                  value: hubItem.name
+                  value: hubItem
               }))
             : [{ label: "Loading hubs...", value: "loading" }];
         return (
@@ -37,7 +37,7 @@ class HomeScreen extends Component {
                 <RNPickerSelect
                     placeholder={{
                         label: strings.homeScreen.selectHub,
-                        value: null
+                        value: strings.homeScreen.selectHub
                     }}
                     items={hubNames}
                     style={styles.picker}

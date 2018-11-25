@@ -1,7 +1,9 @@
 import * as types from "../actions/types";
 
 const INITIAL_STATE = {
-    hubs: []
+    allHubs: [],
+    fetching: false,
+    error: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -10,13 +12,13 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 fetching: true,
-                error: null
             };
         }
         case types.HUBS_GETALL_SUCCESS: {
             return {
-                hubs: action.hubModels,
-                fetching: false
+                allHubs: action.hubModels,
+                fetching: false,
+                error: null
             };
         }
 

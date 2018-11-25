@@ -1,7 +1,9 @@
 import * as types from "../actions/types";
 
 const INITIAL_STATE = {
-    users: []
+    allUsers: [],
+    fetching: false,
+    error: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -9,13 +11,13 @@ export default (state = INITIAL_STATE, action) => {
         case types.USERS_GETALL_REQUEST: {
             return {
                 ...state,
-                fetching: true,
-                error: null
+                fetching: true
             };
         }
         case types.USERS_GETALL_SUCCESS: {
             return {
-                users: action.userModels,
+                ...state,
+                allUsers: action.userModels,
                 fetching: false
             };
         }
@@ -26,6 +28,18 @@ export default (state = INITIAL_STATE, action) => {
                 fetching: false,
                 error: action.error.stack
             };
+        }
+
+        case types.USERS_CREATE_SUCCESS: {
+            let { userId, firstName, lastName, hubId } = action.createdUser;
+            let usersCopy = state.allUsers.slice();
+            usersCopy.push({
+                id: userId,
+                firstName,
+                lastName,
+                hubId
+            });
+            return { allUsers: usersCopy, fetching: null, error: null };
         }
 
         default: {
