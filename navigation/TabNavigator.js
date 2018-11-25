@@ -8,6 +8,7 @@ import {
 
 import HomeScreen from "../containers/HomeScreen";
 import InformationScreen from "../containers/InformationScreen";
+import AddTrashScreen from "../containers/AddFractionScreen";
 
 import TabBarIcon from "../components/TabBarIcon";
 
@@ -21,10 +22,15 @@ const InfoStack = createStackNavigator({
    Info: InformationScreen
 });
 
+const AddTrashStack = createStackNavigator({
+   AddTrash: AddTrashScreen
+});
+
 export default createBottomTabNavigator(
    {
+      AddTrash: AddTrashStack,
       Home: HomeStack,
-      Info: InfoStack
+      Info: InfoStack,
    },
    {
       navigationOptions: ({ navigation }) => ({

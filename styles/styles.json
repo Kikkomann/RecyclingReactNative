@@ -1,32 +1,36 @@
 {
-  "container": {
-    "flex": 1,
-    "alignItems": "center",
-    "backgroundColor": "#F5FCFF",
-  },
-  "welcome": {
-    "fontSize": 20,
-    "textAlign": "center",
-    "margin": 10,
-  },
-  "instructions": {
-    "textAlign": "center",
-    "color": "#333333",
-    "marginBottom": 5,
-  },
+    "container": {
+        "flex": 1,
+        "backgroundColor": "#F5FCFF"
+    },
+    "welcome": {
+        "fontSize": 20,
+        "textAlign": "center",
+        "margin": 10
+    },
+    "instructions": {
+        "textAlign": "center",
+        "color": "#333333",
+        "marginBottom": 5
+    },
 
-  "infoBar": {
-    "paddingTop": 10
-  },
+    "infoBar": {
+        "paddingTop": 10
+    },
 
-  "infoBarFont": {
-        "color": "#003452", /*naestvedBlueDark*/
+    "infoBarFont": {
+        "color": "#003452" /*naestvedBlueDark*/,
         "fontWeight": "bold",
         "fontSize": 20,
         "padding": 10
     },
     "infoBarBorder": {
         "borderRightWidth": 2,
-        "borderRightColor": "#003452", /*naestvedBlueDark*/
+        "borderRightColor": "#003452" /*naestvedBlueDark*/
+    },
+
+    "picker": {
+       "width": 200,
+       "height": 50
     }
 }

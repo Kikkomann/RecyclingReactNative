@@ -4,24 +4,24 @@ import ReduxSagaFirebase from "redux-saga-firebase";
 import * as types from "../actions/types";
 
 // worker saga: makes the api call when watcher saga sees the action
-function* doGetAllUsers() {
+function* doGetAllHubs() {
     let fetchTriesCounter = 0;
     try {
         const reduxSagaFirebase = new ReduxSagaFirebase(firebase.app());
-        const users = yield call(reduxSagaFirebase.database.read, "User/");
-        let userModels = Object.values(users).map(user => ({
-            id: user.id,
-            name: user.Name
+        const hubs = yield call(reduxSagaFirebase.database.read, "Hub/");
+        let hubModels = Object.values(hubs).map(hub => ({
+            id: hub.id,
+            name: hub.Name
         }));
-        // dispatch a success action to the store with the users
-        yield put({ type: types.APP_START_USERS_GETALL_SUCCESS, userModels });
+        // dispatch a success action to the store with the hubs
+        yield put({ type: types.APP_START_HUBS_GETALL_SUCCESS, hubModels });
     } catch (error) {
         // dispatch a failure action to the store with the error
-        yield put({ type: types.APP_START_USERS_GETALL_ERROR, error });
+        yield put({ type: types.APP_START_HUBS_GETALL_ERROR, error });
     }
 }
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
-export function* getAllUsers() {
-    yield takeLatest(types.APP_START_USERS_GETALL_REQUEST, doGetAllUsers);
+export function* getAllHubs() {
+    yield takeLatest(types.APP_START_HUBS_GETALL_REQUEST, doGetAllHubs);
 }

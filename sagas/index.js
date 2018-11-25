@@ -1,6 +1,10 @@
 import { all } from 'redux-saga/effects';
-import { getAllHubs } from './appStart';
+import { getAllUsers } from './appStart';
+import { getAllHubs } from './getHubsSaga';
 
 export default function* rootSaga() {
-    yield all([getAllHubs()]);
+    yield all([
+        getAllUsers(),
+        getAllHubs()
+    ]);
 }
