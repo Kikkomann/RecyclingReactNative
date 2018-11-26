@@ -28,9 +28,9 @@ const AddTrashStack = createStackNavigator({
 
 export default createBottomTabNavigator(
    {
-      AddTrash: AddTrashStack,
-      Home: HomeStack,
+      Hjem: HomeStack,
       Info: InfoStack,
+      Dump: AddTrashStack,
    },
    {
       navigationOptions: ({ navigation }) => ({
@@ -39,8 +39,10 @@ export default createBottomTabNavigator(
             let iconName;
             if (routeName === "Info") {
                iconName = "info";
-            } else if (routeName === "Home") {
+            } else if (routeName === "Hjem") {
                iconName = "home";
+            } else if (routeName === "Dump") {
+               iconName = "trash";
             }
             return <TabBarIcon name={iconName} size={23} color={tintColor} />;
          }

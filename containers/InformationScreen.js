@@ -1,71 +1,112 @@
-import React from 'react';
-import {
-  View,
-} from 'react-native';
-import InfoBar from '../components/InfoBar';
-import TenTips from '../components/TenTips';
-import GreyZone from '../components/GreyZone';
-import Travel from '../components/Travel';
+import React from "react";
+import { View } from "react-native";
+import { connect } from "react-redux";
+import { Button } from "react-native-material-ui";
 
-import Styles from '../styles/styles';
+import InfoBar from "../components/InfoBar";
+import TenTips from "../components/TenTips";
+import GreyZone from "../components/GreyZone";
+import Travel from "../components/Travel";
 
-export default class InformationScreen extends React.Component {
-  constructor(props) {
-    super(props);
+import { setCurrentUser } from "../actions/app/currentUser";
 
-     onChange = (state) => {
-        this.setState(state);
-      }
+import { styles } from "../styles/styles";
 
-    this.state = {
-      greyZone: true,
-      travel: false,
-      tenTips: false
+class InformationScreen extends React.Component {
+    constructor(props) {
+        super(props);
+
+        onChange = state => {
+            this.setState(state);
+        };
+
+        this.state = {
+            greyZone: true,
+            travel: false,
+            tenTips: false
+        };
+
+        this.logOut = this.logOut.bind(this);
+        this._onGreyZonePressed = this._onGreyZonePressed.bind(this);
+        this._onTravelPressed = this._onTravelPressed.bind(this);
+        this._onTenTipsPressed = this._onTenTipsPressed.bind(this);
     }
 
-    this._onGreyZonePressed = this._onGreyZonePressed.bind(this);
-    this._onTravelPressed = this._onTravelPressed.bind(this);
-    this._onTenTipsPressed = this._onTenTipsPressed.bind(this);
-  }
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: "Info",
+            headerRight: (
+                <Button
+                    onPress={navigation.getParam("logOut")}
+                    text="Skift bruger"
+                />
+            )
+        };
+    };
 
-  _onGreyZonePressed () {
-    this.setState( () => {
-      return {
-        greyZone: true,
-        travel: false,
-        tenTips: false
-      }      
-    });
-  }
+    componentDidMount() {
+        this.props.navigation.setParams({ logOut: this.logOut });
+    }
 
-  _onTravelPressed() {
-    this.setState(() => {
-      return {
-        greyZone: false,
-        travel: true,
-        tenTips: false
-      }      
-    });
-  }
+    logOut() {
+        this.props.setCurrentUser(null);
+        this.props.navigation.navigate("AuthLoading");
+    }
 
-  _onTenTipsPressed() {
-    this.setState(() => {
-      return {
-        greyZone: false,
-        travel: false,
-        tenTips: true
-      }      
-    });
-  }
+    _onGreyZonePressed() {
+        this.setState(() => {
+            return {
+                greyZone: true,
+                travel: false,
+                tenTips: false
+            };
+        });
+    }
 
-  render() {
-    return (
-      <View style={Styles.container}>
-        <InfoBar navigation={this.props.navigation} onGreyZonePressed={this._onGreyZonePressed} onTravelPressed={this._onTravelPressed.bind(this)} onTenTipsPressed={this._onTenTipsPressed.bind(this)}/>
-        {this.state.greyZone ? <GreyZone/> : undefined}
-        {this.state.travel ? <Travel/> : undefined}
-        {this.state.tenTips ? <TenTips/> : undefined}
-      </View>
-    );
-  }
+    _onTravelPressed() {
+        this.setState(() => {
+            return {
+                greyZone: false,
+                travel: true,
+                tenTips: false
+            };
+        });
+    }
+
+    _onTenTipsPressed() {
+        this.setState(() => {
+            return {
+                greyZone: false,
+                travel: false,
+                tenTips: true
+            };
+        });
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <InfoBar
+                    navigation={this.props.navigation}
+                    onGreyZonePressed={this._onGreyZonePressed}
+                    onTravelPressed={this._onTravelPressed.bind(this)}
+                    onTenTipsPressed={this._onTenTipsPressed.bind(this)}
+                />
+                {this.state.greyZone ? <GreyZone /> : undefined}
+                {this.state.travel ? <Travel /> : undefined}
+                {this.state.tenTips ? <TenTips /> : undefined}
+            </View>
+        );
+    }
 }
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+    setCurrentUser
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(InformationScreen);

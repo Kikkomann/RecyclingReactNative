@@ -1,18 +1,25 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
-import RNPickerSelect from "react-native-picker-select";
+
+import LoginComponent from "../components/LoginComponent";
+import RegisterComponent from "../components/RegisterComponent";
 
 import { appStart } from "../actions/app/appStart";
+import { create } from "../actions/user/create";
 import { setCurrentUser } from "../actions/app/currentUser";
 
-import Styles from "../styles/styles";
-import strings from "../constants/strings";
+import { styles } from "../styles/styles";
 
 class LoginScreen extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            login: true
+        };
+
+        this.onAddUser = this.onAddUser.bind(this);
         this.onChooseUser = this.onChooseUser.bind(this);
     }
 
@@ -22,6 +29,11 @@ class LoginScreen extends React.Component {
 
     componentDidMount() {
         this.props.appStart();
+    }
+
+    onAddUser(firstName, lastName, hubId) {
+        this.props.createUser(firstName, lastName, hubId);
+        this.props.navigation.navigate("App");
     }
 
     onChooseUser(currentUser) {
@@ -34,35 +46,26 @@ class LoginScreen extends React.Component {
 
     render() {
         let { allUsers } = this.props.users;
-        let usersFound = !!allUsers.length;
-        let userNames = usersFound
-            ? allUsers.map(userItem => ({
-                  label: userItem.firstName,
-                  value: userItem
-              }))
-            : [];
+        let { allHubs } = this.props.hubs;
         return (
-            <View style={[Styles.container, { justifyContent: "center" }]}>
-                <Text style={Styles.loginHeaderText}> Vælg bruger </Text>
-                <RNPickerSelect
-                    placeholder={{
-                        label: strings.loginScreen.selectUser,
-                        value: this.props.currentUser
-                    }}
-                    items={userNames}
-                    style={Styles.picker}
-                    enabled={!!usersFound}
-                    onValueChange={this.onChooseUser}
-                />
-                <View>
-                    <Text
-                        style={Styles.registerLink}
-                        onPress={() =>
-                            this.props.navigation.navigate("Register")
-                        }>
-                        Er du ikke på listen? Så klik her.
-                    </Text>
-                </View>
+            <View style={styles.container}>
+            <View style={styles.loginScreen}>
+            {this.state.login ? (
+                    <LoginComponent
+                    style={{borderWidth: 3}}
+                        allUsers={allUsers}
+                        onValueChange={this.onChooseUser}
+                        navigate={() => this.setState({ login: false })}
+                    />
+                ) : (
+                    <RegisterComponent
+                        allHubs={allHubs}
+                        addUser={this.onAddUser}
+                        navigate={() => this.setState({ login: true })}
+                    />
+                )}
+            </View>
+                
             </View>
         );
     }
@@ -76,7 +79,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     appStart,
-    setCurrentUser
+    setCurrentUser,
+    createUser: create
 };
 
 export default connect(

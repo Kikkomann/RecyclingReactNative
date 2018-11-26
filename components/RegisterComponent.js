@@ -1,14 +1,12 @@
 import React from "react";
-import { View, Picker, Text } from "react-native";
-import { connect } from "react-redux";
+import { View, Text } from "react-native";
 import { TextField } from "react-native-material-textfield";
 import RNPickerSelect from "react-native-picker-select";
 import { Button } from "react-native-material-ui";
-import { create } from "../actions/user/create";
 
-import Styles from "../styles/styles";
+import { styles, RNpickerStyle } from "../styles/styles";
 
-class RegisterScreen extends React.Component {
+export default class RegisterComponent extends React.Component {
     constructor(props) {
         super(props);
 
@@ -17,32 +15,27 @@ class RegisterScreen extends React.Component {
             lastName: "",
             hubId: ""
         };
-
-        this.onAddUser = this.onAddUser.bind(this);
+        this.addUser = this.addUser.bind(this);
     }
 
-    static navigationOptions = {
-        header: null
-    };
-
-    onAddUser() {
+    addUser() {
         let { firstName, lastName, hubId } = this.state;
-        this.props.createUser(firstName, lastName, hubId);
+        this.props.addUser(firstName, lastName, hubId);
     }
 
     render() {
         let { firstName, lastName, hubId } = this.state;
-        let { allHubs } = this.props.hubs;
+        let { allHubs } = this.props;
         let hubsFound = !!allHubs.length;
         let hubNames = hubsFound
             ? allHubs.map(hubItem => ({
                   label: hubItem.name,
                   value: hubItem
               }))
-            : [{ label: "Loading hubs...", value: "loading" }];
+            : [];
         return (
-            <View style={[Styles.container, { justifyContent: "center" }]}>
-                <Text style={Styles.loginHeaderText}> Opret ny bruger </Text>
+            <View style={[styles.container, { justifyContent: "center" }]}>
+                <Text style={styles.loginHeaderText}> Opret ny bruger </Text>
                 <View>
                     <TextField
                         style={{ width: 10 }}
@@ -61,19 +54,17 @@ class RegisterScreen extends React.Component {
                             value: "hub"
                         }}
                         items={hubNames}
-                        style={Styles.picker}
+                        style={RNpickerStyle}
                         enabled={!!hubsFound}
                         onValueChange={hub => this.setState({ hubId: hub.id })}
                     />
-                    <Button onPress={this.onAddUser} text="Tilføj" />
+                    <Button onPress={this.addUser} text="Tilføj" />
                 </View>
 
                 <View>
                     <Text
-                        style={Styles.registerLink}
-                        onPress={() =>
-                            this.props.navigation.navigate("SignIn")
-                        }>
+                        style={styles.registerLink}
+                        onPress={this.props.navigate}>
                         Tilbage til valg af bruger? Klik her.
                     </Text>
                 </View>
@@ -81,16 +72,3 @@ class RegisterScreen extends React.Component {
         );
     }
 }
-
-const mapStateToProps = state => ({
-    hubs: state.hubs
-});
-
-const mapDispatchToProps = {
-    createUser: create
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(RegisterScreen);

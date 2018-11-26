@@ -4,7 +4,7 @@ import {
   Text
 } from 'react-native';
 
-import Styles from '../styles/styles';
+import { styles } from '../styles/styles';
 import strings from '../constants/strings';
 
 export default class GreyZone extends React.Component {

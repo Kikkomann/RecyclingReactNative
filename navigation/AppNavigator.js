@@ -4,11 +4,9 @@ import LoginScreen from "../containers/LoginScreen";
 
 import TabNavigator from "./TabNavigator";
 import AuthLoading from "./AuthLoadingScreen";
-import RegisterScreen from "../containers/RegisterScreen";
 
 const AuthStack = createStackNavigator({
     SignIn: LoginScreen,
-    Register: RegisterScreen
 });
 
 export default createSwitchNavigator(

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import Colors from '../constants/Colors';
-import Styles from '../styles/styles';
+import { styles } from '../styles/styles';
 
 export default class InfoBarText extends React.Component {
   constructor(props) {
@@ -18,13 +18,13 @@ export default class InfoBarText extends React.Component {
   }
 
   render() {
-      let stylesArray = [Styles.infoBarFont];
-      let stylesRightBorder = this.props.withBorder ? Styles.infoBarBorder : {};
-      if (this.props.withBorder) {stylesArray.push(Styles.infoBarBorder)}
+      let stylesArray = [styles.infoBarFont];
+      let stylesRightBorder = this.props.withBorder ? styles.infoBarBorder : {};
+      if (this.props.withBorder) {stylesArray.push(styles.infoBarBorder)}
       return (
         <View style={stylesRightBorder}>
           <TouchableOpacity onPress={this._onTabBarPress}>
-            <Text style={Styles.infoBarFont}>
+            <Text style={styles.infoBarFont}>
               {this.props.text}
             </Text>
           </TouchableOpacity>

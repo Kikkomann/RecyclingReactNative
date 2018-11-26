@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
+import { Button } from "react-native-material-ui";
 
-import { getAllHubs } from "../actions/hub/getAll";
+import { setCurrentUser } from "../actions/app/currentUser";
 
 import styles from "../styles/styles";
 import strings from "../constants/strings";
@@ -11,17 +12,34 @@ import strings from "../constants/strings";
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
-
+        //Todo: delete
         this.onCodeEntered = this.onCodeEntered.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
 
-    onCodeEntered(value) {
-        
-    }
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: "Hjem",
+            headerRight: (
+                <Button
+                    onPress={navigation.getParam("logOut")}
+                    text="Skift bruger"
+                />
+            )
+        };
+    };
 
     componentDidMount() {
-        this.props.fetchHubs();
+        this.props.navigation.setParams({ logOut: this.logOut });
     }
+
+    logOut() {
+        this.props.setCurrentUser(null);
+        this.props.navigation.navigate("AuthLoading");
+    }
+
+    //TODO Delete
+    onCodeEntered(value) {}
 
     render() {
         let { allHubs } = this.props.hubs;
@@ -31,7 +49,7 @@ class HomeScreen extends Component {
                   label: hubItem.name,
                   value: hubItem
               }))
-            : [{ label: "Loading hubs...", value: "loading" }];
+            : [];
         return (
             <View style={styles.container}>
                 <RNPickerSelect
@@ -44,7 +62,6 @@ class HomeScreen extends Component {
                     enabled={!!hubsFound}
                     onValueChange={this.onCodeEntered}
                 />
-                
             </View>
         );
     }
@@ -61,7 +78,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    fetchHubs: getAllHubs
+    setCurrentUser
 };
 
 export default connect(

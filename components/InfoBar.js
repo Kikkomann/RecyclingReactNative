@@ -5,7 +5,7 @@ import {
 
 import InfoBarText from './InfoBarText';
 
-import Styles from '../styles/styles';
+import { styles } from '../styles/styles';
 import strings from '../constants/strings';
 
 export default class InfoBar extends React.Component {
@@ -19,7 +19,7 @@ export default class InfoBar extends React.Component {
 
   render() {
     return (
-        <View flexDirection='row' style={Styles.infoBar}>
+        <View flexDirection='row' style={styles.infoBar}>
           <InfoBarText text={strings.infoBar.greyZone} withBorder={true} onPressed={this.props.onGreyZonePressed}/>
           <InfoBarText text={strings.infoBar.trashTravel} withBorder={true} onPressed={this.props.onTravelPressed}/>
           <InfoBarText text={strings.infoBar.tenTips} onPressed={this.props.onTenTipsPressed}/>

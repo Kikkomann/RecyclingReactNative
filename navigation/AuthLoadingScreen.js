@@ -3,7 +3,7 @@
 import React from "react";
 import { ActivityIndicator, AsyncStorage, StatusBar, View } from "react-native";
 
-import Styles from "../styles/styles";
+import { styles } from "../styles/styles";
 
 export default class AuthLoadingScreen extends React.Component {
     constructor(props) {
@@ -23,7 +23,7 @@ export default class AuthLoadingScreen extends React.Component {
     // Render any loading content that you like here
     render() {
         return (
-            <View style={Styles.container}>
+            <View style={styles.container}>
                 <ActivityIndicator />
                 <StatusBar barStyle="default" />
             </View>
