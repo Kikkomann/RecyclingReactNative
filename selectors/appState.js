@@ -1,3 +1,5 @@
+export const currentUser = state => state.appState.currentUser;
+
 export const users = (state) => state.users;
 export const hubs = (state) => state.hubs;
 

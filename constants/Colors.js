@@ -1,4 +1,5 @@
 export default {
+  backgroundWhiteTheme: '#F5FCFF',
   tabIconDefault: '#ccc',
   tabIconSelected: '#000000',
   tabBar: '#50B748',

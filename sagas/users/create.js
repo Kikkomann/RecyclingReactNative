@@ -3,6 +3,8 @@ import firebase from "react-native-firebase";
 import ReduxSagaFirebase from "redux-saga-firebase";
 import * as types from "../../actions/types";
 
+import { ToastAndroid } from "react-native";
+
 // worker saga: makes the api call when watcher saga sees the action
 function* doCreateUser(action) {
     let fetchTriesCounter = 0;
@@ -19,8 +21,18 @@ function* doCreateUser(action) {
         let createdUser = {userId, firstName, lastName, hubId };
         yield put({ type: types.USERS_CREATE_SUCCESS, createdUser});
         yield put({ type: types.SET_CURRENT_USER, user: createdUser });
+        ToastAndroid.showWithGravity(
+            "Du er nu oprettet!",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
     } catch (error) {
         yield put({ type: types.USERS_GETALL_ERROR, error });
+        ToastAndroid.showWithGravity(
+            "Der gik noget galt. Prøv igen.",
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
     }
 
     // `key` is something like "-Kfn7EyLEoHax0YGoQr0"

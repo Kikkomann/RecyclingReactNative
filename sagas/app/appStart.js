@@ -2,7 +2,7 @@ import { takeLatest, call, put, select } from "redux-saga/effects";
 import firebase from "react-native-firebase";
 import ReduxSagaFirebase from "redux-saga-firebase";
 import * as types from "../../actions/types";
-import * as selectors from "../../selectors/appStart";
+import * as selectors from "../../selectors/appState";
 
 // worker saga: makes the api call when watcher saga sees the action
 function* doAppStart() {
@@ -44,7 +44,6 @@ function* doAppStart() {
             yield put({ type: types.HUBS_GETALL_ERROR, error });
         }
     } while ((yield select(selectors.fetchingUsers)) && (yield select(selectors.fetchingHubs)) && fetchTriesCounter < 5);
-    console.log("End of saga!");
 }
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga

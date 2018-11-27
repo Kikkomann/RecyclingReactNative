@@ -34,11 +34,10 @@ export default class RegisterComponent extends React.Component {
               }))
             : [];
         return (
-            <View style={[styles.container, { justifyContent: "center" }]}>
+            <View>
                 <Text style={styles.loginHeaderText}> Opret ny bruger </Text>
                 <View>
                     <TextField
-                        style={{ width: 10 }}
                         label="Fornavn"
                         value={firstName}
                         onChangeText={firstName => this.setState({ firstName })}

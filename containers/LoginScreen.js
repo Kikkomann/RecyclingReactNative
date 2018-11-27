@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { connect } from "react-redux";
 
 import LoginComponent from "../components/LoginComponent";
@@ -49,23 +49,23 @@ class LoginScreen extends React.Component {
         let { allHubs } = this.props.hubs;
         return (
             <View style={styles.container}>
-            <View style={styles.loginScreen}>
-            {this.state.login ? (
-                    <LoginComponent
-                    style={{borderWidth: 3}}
-                        allUsers={allUsers}
-                        onValueChange={this.onChooseUser}
-                        navigate={() => this.setState({ login: false })}
-                    />
-                ) : (
-                    <RegisterComponent
-                        allHubs={allHubs}
-                        addUser={this.onAddUser}
-                        navigate={() => this.setState({ login: true })}
-                    />
-                )}
-            </View>
-                
+            {/* <ScrollView style={{borderWidth: 3}}> */}
+                <View style={styles.loginScreen}>
+                    {this.state.login ? (
+                        <LoginComponent
+                            allUsers={allUsers}
+                            onValueChange={this.onChooseUser}
+                            navigate={() => this.setState({ login: false })}
+                        />
+                    ) : (
+                        <RegisterComponent
+                            allHubs={allHubs}
+                            addUser={this.onAddUser}
+                            navigate={() => this.setState({ login: true })}
+                        />
+                    )}
+                </View>
+                {/* </ScrollView> */}
             </View>
         );
     }

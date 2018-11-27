@@ -4,14 +4,13 @@ import {
     heightPercentageToDP as hp
 } from "react-native-responsive-screen";
 
+import Colors from "../constants/Colors";
+
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        backgroundColor: "#F5FCFF",
-    //     borderRadius: 4,
-    // borderWidth: 0.5,
-    // borderColor: '#d6d7da',
+        backgroundColor: Colors.backgroundWhiteTheme
     },
 
     infoBar: {
@@ -19,61 +18,56 @@ export const styles = StyleSheet.create({
     },
 
     infoBarFont: {
-        color: "#003452" /*naestvedBlueDark*/,
+        color: Colors.naestvedBlueDark,
         fontWeight: "bold",
         fontSize: hp("3%"),
         padding: wp("2.5%")
     },
     infoBarBorder: {
         borderRightWidth: 2,
-        borderRightColor: "#003452" /*naestvedBlueDark*/
+        borderRightColor: Colors.naestvedBlueDark
     },
 
     registerLink: {
         color: "blue",
-        textDecorationLine: "underline"
+        textDecorationLine: "underline",
+        alignSelf: "center",
+        margin: hp("0.75%")
     },
 
     loginHeaderText: {
         fontSize: hp("3%"),
         fontWeight: "bold",
-        margin: wp("2.4%"),
-        alignSelf: "flex-start"
+        alignSelf: "flex-start",
+        marginBottom: hp("1%")
     },
 
     loginScreen: {
+        flex: 1,
         width: wp("70%"),
         height: hp("50%"),
-        justifyContent: "center"
+        justifyContent: "center",
+        alignSelf: "center"
+    },
+    addTrashInput: {
+        height: hp("10%"),
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "wrap",
     }
 });
 
+// Fra: https://github.com/lawnstarter/react-native-picker-select/issues/29
 export const RNpickerStyle = {
     inputIOS: {
-        color: 'white',
+        color: "white",
         paddingTop: 13,
         paddingHorizontal: 10,
-        paddingBottom: 12,
+        paddingBottom: 12
     },
     inputAndroid: {
-        color: 'white',
-        width: wp("80%"),
+        width: wp("70%"),
         alignSelf: "center"
     },
-    placeholderColor: 'white',
-    underline: { borderTopWidth: 0 },
-    icon: {
-        position: 'absolute',
-        backgroundColor: 'transparent',
-        borderTopWidth: 5,
-        borderTopColor: '#00000099',
-        borderRightWidth: 5,
-        borderRightColor: 'transparent',
-        borderLeftWidth: 5,
-        borderLeftColor: 'transparent',
-        width: 100,
-        height: 0,
-        top: 20,
-        right: 15,
-    },
-}
+    underline: { borderTopWidth: 0 }
+};

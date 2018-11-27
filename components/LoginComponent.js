@@ -16,7 +16,7 @@ export default class LoginComponent extends React.Component {
               }))
             : [];
         return (
-            <View style={[styles.container, { justifyContent: "center" }]}>
+            <View>
                 <Text style={styles.loginHeaderText}> Vælg bruger </Text>
                 <RNPickerSelect
                     placeholder={{
