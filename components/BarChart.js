@@ -9,7 +9,6 @@ import {
     VictoryBar,
     VictoryLegend,
     VictoryAxis,
-    VictoryLabel
 } from "victory-native";
 
 import { styles, barChart } from "../styles/styles";
@@ -31,7 +30,7 @@ export default class BarChart extends React.Component {
 
     render() {
         let currentWeekNumber = moment().isoWeek();
-        let chartColors = ["orangered", "teal", "gold", "limegreen"];
+        let chartColors = ["orangered", "limegreen", "gold", "teal"];
         let rest2 = this.getTrashTypeFractionsFromWeek("rest", 2);
         let rest1 = this.getTrashTypeFractionsFromWeek("rest", 1);
         let rest0 = this.getTrashTypeFractionsFromWeek("rest", 0);

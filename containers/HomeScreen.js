@@ -2,26 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
 import { Button } from "react-native-material-ui";
-import moment from "moment";
 
 import { appStart, setCurrentUser, getAllFractionsByUserId } from "../actions";
 
 import { currentUser, allFractions } from "../selectors";
 
-import {
-    VictoryChart,
-    VictoryGroup,
-    VictoryBar,
-    VictoryLegend,
-    VictoryAxis
-} from "victory-native";
-
 import { styles } from "../styles/styles";
 import BarChart from "../components/BarChart";
+import LineChart from "../components/LineChart";
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showBar: false
+        };
         //Todo: delete
         this.logOut = this.logOut.bind(this);
     }
@@ -39,14 +35,6 @@ class HomeScreen extends Component {
     };
 
     componentDidMount() {
-        this.props.appStart();
-        let crUser = {
-            id: "-LSBfkUwm9tPz_-DH91f",
-            firstName: "Rune Hou",
-            lastName: "Thode",
-            hubId: "1234567"
-        };
-        this.props.setCurrentUser(crUser);
         this.props.getFractionsByUser(this.props.currentUser);
         this.props.navigation.setParams({ logOut: this.logOut });
     }
@@ -59,7 +47,14 @@ class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <BarChart fractions={this.props.fractions} />
+                {this.state.showBar ? (
+                    <BarChart fractions={this.props.fractions} />
+                ) : (
+                    <LineChart fractions={this.props.fractions} />
+                )}
+                <View style={{ borderWidth: 1 }}>
+                    <Button onPress={() => this.setState({showBar: !this.state.showBar})} text="Tilføj" />
+                </View>
             </View>
         );
     }

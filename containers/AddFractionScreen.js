@@ -1,5 +1,6 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
+import moment from "moment";
 import { TextField } from "react-native-material-textfield";
 import { Button } from "react-native-material-ui";
 import { connect } from "react-redux";
@@ -19,7 +20,7 @@ class AddFractionScreen extends React.Component {
             weight: "",
             isClean: false,
             trashType: "",
-            date: new Date()
+            date: moment().format("DD-MM-YYYY")
         };
 
         this.logOut = this.logOut.bind(this);
@@ -28,7 +29,7 @@ class AddFractionScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: "Hjem",
+            headerTitle: "Aflever skrald",
             headerRight: (
                 <Button
                     onPress={navigation.getParam("logOut")}
@@ -137,7 +138,7 @@ class AddFractionScreen extends React.Component {
                                     }
                                 }}
                                 onDateChange={date => {
-                                    this.setState({ date: date });
+                                    this.setState({ date: moment(date, "DD-MM-YYYY") });
                                 }}
                             />
                         </View>
