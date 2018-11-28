@@ -5,9 +5,7 @@ import { connect } from "react-redux";
 import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
 
-import { appStart } from "../actions/app/appStart";
-import { create } from "../actions/user/create";
-import { setCurrentUser } from "../actions/app/currentUser";
+import { appStart, createUser, setCurrentUser } from "../actions";
 
 import { styles } from "../styles/styles";
 
@@ -80,7 +78,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     appStart,
     setCurrentUser,
-    createUser: create
+    createUser
 };
 
 export default connect(

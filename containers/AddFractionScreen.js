@@ -7,8 +7,7 @@ import CheckBox from "react-native-check-box";
 import RNPickerSelect from "react-native-picker-select";
 import DatePicker from "react-native-datepicker";
 
-import { setCurrentUser } from "../actions/app/currentUser";
-import { create } from "../actions/fraction/create";
+import { setCurrentUser, createFraction } from "../actions";
 
 import { styles, RNpickerStyle } from "../styles/styles";
 
@@ -158,7 +157,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     setCurrentUser,
-    addFraction: create
+    addFraction: createFraction
 };
 
 export default connect(

@@ -8,7 +8,7 @@ import TenTips from "../components/TenTips";
 import GreyZone from "../components/GreyZone";
 import Travel from "../components/Travel";
 
-import { setCurrentUser } from "../actions/app/currentUser";
+import { setCurrentUser } from "../actions";
 
 import { styles } from "../styles/styles";
 

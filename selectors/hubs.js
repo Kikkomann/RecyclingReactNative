@@ -1,0 +1,1 @@
+export const hubs = (state) => state.hubs;

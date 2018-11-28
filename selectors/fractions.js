@@ -1,5 +1,6 @@
 export const allFractions = state => state.fractions.allFractions;
 
-export const fractionsByUser = (state, userId) => {
-    allFractions(state).filter(fraction => fraction.userId == userId);
+export const fractionsByUserId = state => {
+    return allFractions(state).filter(fraction => fraction.userId == props.id);
+    
 };

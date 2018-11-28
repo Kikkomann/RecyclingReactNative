@@ -26,7 +26,8 @@ function* doGetAllFractionsByUser() {
                 weight: value.weight,
                 isClean: value.isClean,
                 type: value.type,
-                userId: value.userId
+                userId: value.userId,
+                date: value.date,
             });
         }
         // dispatch a success action to the store with the fractions

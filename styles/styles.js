@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         flexWrap: "wrap",
-    }
+    },
 });
 
 // Fra: https://github.com/lawnstarter/react-native-picker-select/issues/29
@@ -71,3 +71,19 @@ export const RNpickerStyle = {
     },
     underline: { borderTopWidth: 0 }
 };
+
+export const barChart = {
+    axisLabel: {
+        padding: wp("8%")
+    },
+
+    barChart: {
+        width: wp("93%")
+    },
+
+    chart: {
+    },
+
+    legend: {
+    },
+}

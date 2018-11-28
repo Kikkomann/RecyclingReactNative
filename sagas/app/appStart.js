@@ -23,7 +23,6 @@ function* doAppStart() {
             // dispatch a success action to the store with the users
             yield put({ type: types.USERS_GETALL_SUCCESS, userModels });
         } catch (error) {
-            debugger;
             // dispatch a failure action to the store with the error
             yield put({ type: types.USERS_GETALL_ERROR, error });
         }
