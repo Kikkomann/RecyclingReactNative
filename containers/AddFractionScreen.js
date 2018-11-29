@@ -138,7 +138,7 @@ class AddFractionScreen extends React.Component {
                                     }
                                 }}
                                 onDateChange={date => {
-                                    this.setState({ date: moment(date, "DD-MM-YYYY") });
+                                    this.setState({ date: moment(date, "DD-MM-YYYY").format("DD-MM-YYYY") });
                                 }}
                             />
                         </View>

@@ -13,6 +13,7 @@ import AddTrashScreen from "../containers/AddFractionScreen";
 import TabBarIcon from "../components/TabBarIcon";
 
 import Colors from "../constants/Colors";
+import { styles, tabBarIconSize } from "../styles/styles";
 
 const HomeStack = createStackNavigator({
    Home: HomeScreen
@@ -44,23 +45,21 @@ export default createBottomTabNavigator(
             } else if (routeName === "Dump") {
                iconName = "trash";
             }
-            return <TabBarIcon name={iconName} size={23} color={tintColor} />;
+            return <TabBarIcon name={iconName} size={tabBarIconSize} color={tintColor} />;
          }
       }),
       tabBarOptions: {
          activeTintColor: Colors.white,
          inactiveTintColor: Colors.naestvedBlueDark,
-         labelStyle: {
-            fontSize: 13
-         },
+         labelStyle: styles.tabBarFontSize,
          style: {
-            backgroundColor: Colors.tabBar
+            backgroundColor: Colors.greenLightTheme
          }
       }
    },
    {
       barStyle: {
-         backgroundColor: Colors.tabBar
+         backgroundColor: Colors.greenLightTheme
       }
    }
 );

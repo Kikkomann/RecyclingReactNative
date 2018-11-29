@@ -8,12 +8,20 @@ import {
     VictoryGroup,
     VictoryBar,
     VictoryLegend,
-    VictoryAxis,
+    VictoryAxis
 } from "victory-native";
 
-import { styles, barChart } from "../styles/styles";
+import { barChart } from "../styles/styles";
 
 export default class BarChart extends React.Component {
+    // componentDidMount() {
+    //     this.props.navigation.addListener("didFocus", this._handleDataChange);
+    // }
+
+    _handleDataChange = () => {
+        this.setState({ reRender: this.state.reRender + 1 });
+    };
+
     getTrashTypeFractionsFromWeek(trashType, weeksAgo) {
         let fractionsFromXWeeksAgo = this.props.fractions.filter(
             fraction =>
@@ -43,7 +51,22 @@ export default class BarChart extends React.Component {
         let gmp2 = this.getTrashTypeFractionsFromWeek("gmp", 2);
         let gmp1 = this.getTrashTypeFractionsFromWeek("gmp", 1);
         let gmp0 = this.getTrashTypeFractionsFromWeek("gmp", 0);
-        let max = Math.ceil(Math.max(rest0, rest1, rest2, bio2, bio1, bio0, pp2, pp1, pp0, gmp2, gmp1, gmp0));
+        let max = Math.ceil(
+            Math.max(
+                rest0,
+                rest1,
+                rest2,
+                bio2,
+                bio1,
+                bio0,
+                pp2,
+                pp1,
+                pp0,
+                gmp2,
+                gmp1,
+                gmp0
+            )
+        );
         return (
             <View style={barChart.barChart}>
                 <View style={barChart.chart}>
@@ -52,8 +75,14 @@ export default class BarChart extends React.Component {
                             dependentAxis
                             label="kg."
                             style={barChart}
-                            tickValues={[0, max * 0.25, max * 0.5, max * 0.75, max]}
-                            tickFormat={(t) => Math.round(t)}
+                            tickValues={[
+                                0,
+                                max * 0.25,
+                                max * 0.5,
+                                max * 0.75,
+                                max
+                            ]}
+                            tickFormat={t => Math.round(t)}
                         />
                         <VictoryAxis />
                         <VictoryGroup
@@ -65,8 +94,7 @@ export default class BarChart extends React.Component {
                                     "Uge " + (currentWeekNumber - 1),
                                     "Uge " + currentWeekNumber
                                 ]
-                            }}
-                            >
+                            }}>
                             <VictoryBar
                                 data={[
                                     {
@@ -97,21 +125,21 @@ export default class BarChart extends React.Component {
                                     {
                                         x: 1,
                                         y: this.getTrashTypeFractionsFromWeek(
-                                            "gmp",
+                                            "bio",
                                             2
                                         )
                                     },
                                     {
                                         x: 2,
                                         y: this.getTrashTypeFractionsFromWeek(
-                                            "gmp",
+                                            "bio",
                                             1
                                         )
                                     },
                                     {
                                         x: 3,
                                         y: this.getTrashTypeFractionsFromWeek(
-                                            "gmp",
+                                            "bio",
                                             0
                                         )
                                     }
@@ -147,21 +175,21 @@ export default class BarChart extends React.Component {
                                     {
                                         x: 1,
                                         y: this.getTrashTypeFractionsFromWeek(
-                                            "bio",
+                                            "gmp",
                                             2
                                         )
                                     },
                                     {
                                         x: 2,
                                         y: this.getTrashTypeFractionsFromWeek(
-                                            "bio",
+                                            "gmp",
                                             1
                                         )
                                     },
                                     {
                                         x: 3,
                                         y: this.getTrashTypeFractionsFromWeek(
-                                            "bio",
+                                            "gmp",
                                             0
                                         )
                                     }

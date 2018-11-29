@@ -5,7 +5,7 @@ import { Button } from "react-native-material-ui";
 
 import { appStart, setCurrentUser, getAllFractionsByUserId } from "../actions";
 
-import { currentUser, allFractions } from "../selectors";
+import { currentUser, allFractions, fetchingFractions } from "../selectors";
 
 import { styles } from "../styles/styles";
 import BarChart from "../components/BarChart";
@@ -16,7 +16,8 @@ class HomeScreen extends Component {
         super(props);
 
         this.state = {
-            showBar: false
+            showBar: false,
+            reRender: 1
         };
         //Todo: delete
         this.logOut = this.logOut.bind(this);
@@ -36,8 +37,13 @@ class HomeScreen extends Component {
 
     componentDidMount() {
         this.props.getFractionsByUser(this.props.currentUser);
+        this.props.navigation.addListener("didFocus", this._handleDataChange);
         this.props.navigation.setParams({ logOut: this.logOut });
     }
+
+    _handleDataChange = () => {
+        this.props.getFractionsByUser(this.props.currentUser);
+    };
 
     logOut() {
         this.props.setCurrentUser(null);
@@ -45,15 +51,21 @@ class HomeScreen extends Component {
     }
 
     render() {
+        console.log("Show barChart?: " + this.state.showBar);
         return (
             <View style={styles.container}>
                 {this.state.showBar ? (
-                    <BarChart fractions={this.props.fractions} />
+                    <BarChart fractions={this.props.fractions} navigation={this.props.navigation} stillFetching={this.props.fetchingFractions} />
                 ) : (
-                    <LineChart fractions={this.props.fractions} />
+                    <LineChart fractions={this.props.fractions} stillFetching={this.props.fetchingFractions} />
                 )}
                 <View style={{ borderWidth: 1 }}>
-                    <Button onPress={() => this.setState({showBar: !this.state.showBar})} text="Tilføj" />
+                    <Button
+                        onPress={() =>
+                            this.setState({ showBar: !this.state.showBar })
+                        }
+                        text="Skift diagram"
+                    />
                 </View>
             </View>
         );
@@ -66,7 +78,8 @@ class HomeScreen extends Component {
 //    value: PropTypes.number.isRequired,
 //  };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
+    fetchingFractions: fetchingFractions(state),
     currentUser: currentUser(state),
     fractions: allFractions(state)
 });

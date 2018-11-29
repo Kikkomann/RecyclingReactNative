@@ -1,9 +1,12 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 
 import moment from "moment";
 
 import { VictoryChart, VictoryLine, VictoryAxis } from "victory-native";
+
+import { barChart, styles, ActivityIndicatorSize } from "../styles/styles";
+import Colors from "../constants/Colors";
 
 export default class BarChart extends React.Component {
     getTrashTypeFractionsFromWeek(trashType, weeksAgo) {
@@ -20,11 +23,13 @@ export default class BarChart extends React.Component {
             );
     }
 
-    getEarliestDateFromFractions(fractions) {
-        let dates = fractions.map(fraction =>
-            moment(fraction.date, "DD-MM-YYYY")
-        );
-        return moment.min(dates);
+    getDatesForXAxis(startDate) {
+        let startDateMoment = moment(startDate, "DD-MM-YYYY");
+        let difference = moment().diff(startDateMoment);
+        let jump = difference / 3;
+        let secondDate = startDateMoment.clone().add(jump).format("DD-MM-YYYY");
+        let thirdDate = startDateMoment.clone().add(jump * 2).format("DD-MM-YYYY");
+        return [startDate, secondDate, thirdDate, moment().format("DD-MM-YYYY")];
     }
 
     getSortedCorrectly(fractions) {
@@ -52,17 +57,15 @@ export default class BarChart extends React.Component {
         );
 
         let dateArrayWithWeight = [];
-        var i,
-            j = 0;
-        for (i = 0; i < dateArray.length; i++) {
+        for (var i = 0; i < dateArray.length; i++) {
             let currentDaysWeight = 0;
-            for (j = 0; j < nonRestFractions.length; j++) {
+            for (var j = 0; j < nonRestFractions.length; j++) {
                 if (nonRestFractions[j].date == dateArray[i]) {
                     currentDaysWeight += parseFloat(nonRestFractions[j].weight);
                 }
             }
             dateArrayWithWeight.push({
-                x: i,
+                x: dateArray[i],
                 y: Math.round((currentDaysWeight / totalWeight) * 100)
             });
         }
@@ -84,27 +87,33 @@ export default class BarChart extends React.Component {
     }
 
     render() {
-        let currentWeekNumber = moment().isoWeek();
-        let chartColors = ["orangered", "teal", "gold", "limegreen"];
-        let recycledCorrectly = this.props.fractions.filter(
-            fraction => fraction.isClean
-        );
-        let startDate = this.getEarliestDateFromFractions(this.props.fractions);
-        let chartObjects = this.getSortedCorrectly(this.props.fractions);
-
+        let { stillFetching, fractions } = this.props;
+        let chartObjects = fractions.length > 0 && !stillFetching ? this.getSortedCorrectly(fractions) : [];
+        let categories = chartObjects.length > 0 ?  this.getDatesForXAxis(chartObjects[0].x) : undefined;
+        let tickValues = chartObjects.length > 0 ? chartObjects.map(frac => moment().diff(moment(frac.x, "DD-MM-YYYY"), "days")).reverse() : [];
         return (
-            <View>
-                <VictoryChart>
-                    <VictoryLine
-                        data={[
-                            { x: 1, y: 2 },
-                            { x: 2, y: 3 },
-                            { x: 3, y: 5 },
-                            { x: 4, y: 4 },
-                            { x: 5, y: 7 }
-                        ]}
+            <View style={barChart.barChart}>
+                {chartObjects.length < 2 ? (
+                    <ActivityIndicator
+                        style={styles.ActivityIndicator}
+                        color={Colors.ActivityIndicatorColor}
+                        size={ActivityIndicatorSize}
                     />
-                </VictoryChart>
+                ) : (
+                    <VictoryChart>
+                    <VictoryAxis
+                            dependentAxis
+                            label="%"
+                            style={barChart}
+                            
+                        />
+                        <VictoryAxis
+                        tickValues={tickValues} />
+                        <VictoryLine
+                            data={chartObjects}
+                        />
+                    </VictoryChart>
+                )}
             </View>
         );
     }

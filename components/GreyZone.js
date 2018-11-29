@@ -11,7 +11,7 @@ export default class GreyZone extends React.Component {
   render() {
     return (
       <View>
-      	  <Text>This is GreyZone</Text>
+      	  <Text>Kommer senere</Text>
       </View>
     );
   }

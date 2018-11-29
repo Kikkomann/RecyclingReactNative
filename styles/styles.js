@@ -13,6 +13,10 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.backgroundWhiteTheme
     },
 
+    tabBarFontSize: {
+        fontSize: hp("2.15%"),
+    },
+
     infoBar: {
         paddingTop: wp("2.5%")
     },
@@ -53,7 +57,12 @@ export const styles = StyleSheet.create({
         height: hp("10%"),
         flexDirection: "row",
         alignItems: "center",
-        flexWrap: "wrap",
+        flexWrap: "wrap"
+    },
+
+    ActivityIndicator: {
+        flex: 1,
+        flexDirection: "row",
     },
 });
 
@@ -78,12 +87,16 @@ export const barChart = {
     },
 
     barChart: {
-        width: wp("93%")
+        width: wp("93%"),
+        height: hp("55%"),
+        borderWidth: 1
     },
 
-    chart: {
-    },
+    chart: {},
 
-    legend: {
-    },
-}
+    legend: {}
+};
+
+export const ActivityIndicatorSize = hp("10%");
+
+export const tabBarIconSize = hp("4.85%");

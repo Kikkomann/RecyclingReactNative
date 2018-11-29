@@ -8,6 +8,7 @@ import RegisterComponent from "../components/RegisterComponent";
 import { appStart, createUser, setCurrentUser } from "../actions";
 
 import { styles } from "../styles/styles";
+import { fetchingUsers, allHubs, allUsers, currentUser } from "../selectors";
 
 class LoginScreen extends React.Component {
     constructor(props) {
@@ -43,21 +44,20 @@ class LoginScreen extends React.Component {
     }
 
     render() {
-        let { allUsers } = this.props.users;
-        let { allHubs } = this.props.hubs;
+        let { users, hubs } = this.props;
         return (
             <View style={styles.container}>
-            {/* <ScrollView style={{borderWidth: 3}}> */}
+                {/* <ScrollView style={{borderWidth: 3}}> */}
                 <View style={styles.loginScreen}>
                     {this.state.login ? (
                         <LoginComponent
-                            allUsers={allUsers}
+                            allUsers={users}
                             onValueChange={this.onChooseUser}
                             navigate={() => this.setState({ login: false })}
                         />
                     ) : (
                         <RegisterComponent
-                            allHubs={allHubs}
+                            allHubs={hubs}
                             addUser={this.onAddUser}
                             navigate={() => this.setState({ login: true })}
                         />
@@ -70,9 +70,10 @@ class LoginScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    users: state.users,
-    hubs: state.hubs,
-    currentUser: state.currentUser
+    fetchingUsers: fetchingUsers(state),
+    users: allUsers(state),
+    hubs: allHubs(state),
+    currentUser: currentUser(state)
 });
 
 const mapDispatchToProps = {

@@ -8,7 +8,7 @@ export default class Travel extends React.Component {
     render() {
         return (
             <View>
-                <Text>Come back soon to experience this feature</Text>
+                <Text>En eller anden dag</Text>
             </View>
         );
     }

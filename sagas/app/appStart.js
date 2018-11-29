@@ -2,7 +2,7 @@ import { takeLatest, call, put, select } from "redux-saga/effects";
 import firebase from "react-native-firebase";
 import ReduxSagaFirebase from "redux-saga-firebase";
 import * as types from "../../actions/types";
-import * as selectors from "../../selectors/appState";
+import * as selectors from "../../selectors";
 
 // worker saga: makes the api call when watcher saga sees the action
 function* doAppStart() {

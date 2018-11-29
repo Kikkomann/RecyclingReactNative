@@ -1,1 +1,3 @@
-export const hubs = (state) => state.hubs;
+export const allHubs = (state) => state.hubs.allHubs;
+
+export const fetchingHubs = (state) => state.hubs.fetching;

@@ -11,7 +11,7 @@ export default class TenTips extends React.Component {
   render() {
     return (
       <View>
-      	  <Text>This is TenTips. It really is!</Text>
+      	  <Text>Jeg lover!</Text>
       </View>
     );
   }
