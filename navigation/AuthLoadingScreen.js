@@ -3,7 +3,8 @@
 import React from "react";
 import { ActivityIndicator, AsyncStorage, StatusBar, View } from "react-native";
 
-import { styles } from "../styles/styles";
+import { styles, ActivityIndicatorSize } from "../styles/styles";
+import Colors from "../constants/Colors";
 
 export default class AuthLoadingScreen extends React.Component {
     constructor(props) {
@@ -24,7 +25,11 @@ export default class AuthLoadingScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <ActivityIndicator />
+                <ActivityIndicator
+                    style={styles.ActivityIndicator}
+                    color={Colors.ActivityIndicatorColor}
+                    size={ActivityIndicatorSize}
+                />
                 <StatusBar barStyle="default" />
             </View>
         );

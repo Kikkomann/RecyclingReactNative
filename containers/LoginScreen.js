@@ -45,6 +45,7 @@ class LoginScreen extends React.Component {
 
     render() {
         let { users, hubs } = this.props;
+        console.log(this.props.fetchingUsers);
         return (
             <View style={styles.container}>
                 {/* <ScrollView style={{borderWidth: 3}}> */}
@@ -54,6 +55,7 @@ class LoginScreen extends React.Component {
                             allUsers={users}
                             onValueChange={this.onChooseUser}
                             navigate={() => this.setState({ login: false })}
+                            stillFetching={this.props.fetchingUsers}
                         />
                     ) : (
                         <RegisterComponent

@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
-import { Button } from "react-native-material-ui";
+import { View, ActivityIndicator, Button } from "react-native";
+import { Button as UIButton } from "react-native-material-ui";
 
 import { appStart, setCurrentUser, getAllFractionsByUserId } from "../actions";
 
 import { currentUser, allFractions, fetchingFractions } from "../selectors";
 
-import { styles } from "../styles/styles";
+import { styles, ActivityIndicatorSize } from "../styles/styles";
 import BarChart from "../components/BarChart";
 import LineChart from "../components/LineChart";
+import Colors from "../constants/Colors";
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showBar: false,
-            reRender: 1
+            showBar: true
         };
-        //Todo: delete
+
         this.logOut = this.logOut.bind(this);
     }
 
@@ -29,7 +29,8 @@ class HomeScreen extends Component {
             headerRight: (
                 <Button
                     onPress={navigation.getParam("logOut")}
-                    text="Skift bruger"
+                    title="Skift bruger"
+                    color={Colors.greenLightTheme}
                 />
             )
         };
@@ -51,24 +52,52 @@ class HomeScreen extends Component {
     }
 
     render() {
-        console.log("Show barChart?: " + this.state.showBar);
-        return (
-            <View style={styles.container}>
-                {this.state.showBar ? (
-                    <BarChart fractions={this.props.fractions} navigation={this.props.navigation} stillFetching={this.props.fetchingFractions} />
-                ) : (
-                    <LineChart fractions={this.props.fractions} stillFetching={this.props.fetchingFractions} />
-                )}
-                <View style={{ borderWidth: 1 }}>
-                    <Button
-                        onPress={() =>
-                            this.setState({ showBar: !this.state.showBar })
-                        }
-                        text="Skift diagram"
+        // console.log("Show barChart?: " + this.state.showBar);
+        if (this.props.fetchingFractions) {
+            return (
+                <View style={styles.container}>
+                    <ActivityIndicator
+                        style={styles.ActivityIndicator}
+                        color={Colors.ActivityIndicatorColor}
+                        size={ActivityIndicatorSize}
                     />
                 </View>
-            </View>
-        );
+            );
+        } else {
+            return (
+                <View style={styles.container}>
+                    <View style={{ flex: 3 }}>
+                        {this.state.showBar ? (
+                            <BarChart
+                                fractions={this.props.fractions}
+                                navigation={this.props.navigation}
+                                stillFetching={!this.props.fetchingFractions}
+                            />
+                        ) : (
+                            <LineChart
+                                fractions={this.props.fractions}
+                                stillFetching={this.props.fetchingFractions}
+                            />
+                        )}
+                    </View>
+                    <View style={{ alignSelf: "center", flex: 1 }}>
+                        <Button
+                            onPress={() =>
+                                this.setState({
+                                    showBar: !this.state.showBar
+                                })
+                            }
+                            title={
+                                "Vis " +
+                                (this.state.showBar ? "sorterings" : "total") +
+                                "graf"
+                            }
+                            color={Colors.greenLightTheme}
+                        />
+                    </View>
+                </View>
+            );
+        }
     }
 }
 

@@ -14,14 +14,6 @@ import {
 import { barChart } from "../styles/styles";
 
 export default class BarChart extends React.Component {
-    // componentDidMount() {
-    //     this.props.navigation.addListener("didFocus", this._handleDataChange);
-    // }
-
-    _handleDataChange = () => {
-        this.setState({ reRender: this.state.reRender + 1 });
-    };
-
     getTrashTypeFractionsFromWeek(trashType, weeksAgo) {
         let fractionsFromXWeeksAgo = this.props.fractions.filter(
             fraction =>
@@ -198,10 +190,11 @@ export default class BarChart extends React.Component {
                         </VictoryGroup>
                     </VictoryChart>
                 </View>
-                <View style={barChart.legend}>
+                <View>
                     <VictoryLegend
                         orientation="horizontal"
                         x={7}
+                        style={barChart}
                         colorScale={chartColors}
                         data={[
                             { name: "Rest" },

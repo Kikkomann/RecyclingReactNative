@@ -1,27 +1,30 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, ToastAndroid, Button } from "react-native";
 import moment from "moment";
 import { TextField } from "react-native-material-textfield";
-import { Button } from "react-native-material-ui";
 import { connect } from "react-redux";
 import CheckBox from "react-native-check-box";
 import RNPickerSelect from "react-native-picker-select";
 import DatePicker from "react-native-datepicker";
+import { Button as UIButton } from "react-native-material-ui";
 
 import { setCurrentUser, createFraction } from "../actions";
 
 import { styles, RNpickerStyle } from "../styles/styles";
+import Colors from "../constants/Colors";
 
 class AddFractionScreen extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.initialState = {
             weight: "",
             isClean: false,
             trashType: "",
             date: moment().format("DD-MM-YYYY")
         };
+
+        this.state = this.initialState;
 
         this.logOut = this.logOut.bind(this);
         this.onAddTrash = this.onAddTrash.bind(this);
@@ -31,7 +34,7 @@ class AddFractionScreen extends React.Component {
         return {
             headerTitle: "Aflever skrald",
             headerRight: (
-                <Button
+                <UIButton
                     onPress={navigation.getParam("logOut")}
                     text="Skift bruger"
                 />
@@ -50,13 +53,22 @@ class AddFractionScreen extends React.Component {
 
     onAddTrash() {
         let { weight, isClean, trashType, date } = this.state;
-        this.props.addFraction(
-            weight,
-            isClean,
-            trashType,
-            this.props.currentUser.id,
-            date,
-        );
+        if (weight && trashType && date) {
+            this.props.addFraction(
+                weight,
+                isClean,
+                trashType,
+                this.props.currentUser.id,
+                date
+            );
+            this.setState(this.initialState);
+        } else {
+            ToastAndroid.showWithGravity(
+                "Du mangler at udfylde nogle felter!",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        }
     }
 
     render() {
@@ -138,13 +150,20 @@ class AddFractionScreen extends React.Component {
                                     }
                                 }}
                                 onDateChange={date => {
-                                    this.setState({ date: moment(date, "DD-MM-YYYY").format("DD-MM-YYYY") });
+                                    this.setState({
+                                        date: moment(date, "DD-MM-YYYY").format(
+                                            "DD-MM-YYYY"
+                                        )
+                                    });
                                 }}
                             />
                         </View>
-                        <View style={{ borderWidth: 1 }}>
-                            <Button onPress={this.onAddTrash} text="Tilføj" />
-                        </View>
+                        <Button
+                            style={styles.addButton}
+                            onPress={this.onAddTrash}
+                            title="Tilføj"
+                            color={Colors.greenLightTheme}
+                        />
                     </View>
                 </ScrollView>
             </View>

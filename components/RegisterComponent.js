@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ToastAndroid, Button } from "react-native";
 import { TextField } from "react-native-material-textfield";
 import RNPickerSelect from "react-native-picker-select";
-import { Button } from "react-native-material-ui";
 
 import { styles, RNpickerStyle } from "../styles/styles";
+import Colors from "../constants/Colors";
 
 export default class RegisterComponent extends React.Component {
     constructor(props) {
@@ -20,7 +20,15 @@ export default class RegisterComponent extends React.Component {
 
     addUser() {
         let { firstName, lastName, hubId } = this.state;
-        this.props.addUser(firstName, lastName, hubId);
+        if (firstName && lastName && hubId) {
+            this.props.addUser(firstName, lastName, hubId);
+        } else {
+            ToastAndroid.showWithGravity(
+                "Alle felter skal udfyldes!",
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+        }
     }
 
     render() {
@@ -34,7 +42,7 @@ export default class RegisterComponent extends React.Component {
               }))
             : [];
         return (
-            <View>
+            <View style={{ alignItems: "center" }}>
                 <Text style={styles.loginHeaderText}> Opret ny bruger </Text>
                 <View>
                     <TextField
@@ -47,17 +55,25 @@ export default class RegisterComponent extends React.Component {
                         value={lastName}
                         onChangeText={lastName => this.setState({ lastName })}
                     />
-                    <RNPickerSelect
-                        placeholder={{
-                            label: "Vælg tilhørende hub",
-                            value: "hub"
-                        }}
-                        items={hubNames}
-                        style={RNpickerStyle}
-                        enabled={!!hubsFound}
-                        onValueChange={hub => this.setState({ hubId: hub.id })}
+                    <View style={styles.loginPicker}>
+                        <RNPickerSelect
+                            placeholder={{
+                                label: "Vælg tilhørende hub",
+                                value: "hub"
+                            }}
+                            items={hubNames}
+                            style={RNpickerStyle}
+                            enabled={!!hubsFound}
+                            onValueChange={hub =>
+                                this.setState({ hubId: hub.id })
+                            }
+                        />
+                    </View>
+                    <Button
+                        onPress={this.addUser}
+                        title="Tilføj"
+                        color={Colors.greenLightTheme}
                     />
-                    <Button onPress={this.addUser} text="Tilføj" />
                 </View>
 
                 <View>

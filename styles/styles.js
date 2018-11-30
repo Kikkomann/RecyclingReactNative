@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     },
 
     tabBarFontSize: {
-        fontSize: hp("2.15%"),
+        fontSize: hp("2%")
     },
 
     infoBar: {
@@ -36,14 +36,14 @@ export const styles = StyleSheet.create({
         color: "blue",
         textDecorationLine: "underline",
         alignSelf: "center",
-        margin: hp("0.75%")
+        marginTop: hp("3%")
     },
 
     loginHeaderText: {
         fontSize: hp("3%"),
         fontWeight: "bold",
         alignSelf: "flex-start",
-        marginBottom: hp("1%")
+        marginBottom: hp("1.7%")
     },
 
     loginScreen: {
@@ -53,6 +53,14 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center"
     },
+
+    loginPicker: {
+        height: hp("8.5%"),
+        borderWidth: 1,
+        marginTop: hp("1.7%"),
+        marginBottom: hp("1.7%")
+    },
+
     addTrashInput: {
         height: hp("10%"),
         flexDirection: "row",
@@ -62,8 +70,12 @@ export const styles = StyleSheet.create({
 
     ActivityIndicator: {
         flex: 1,
-        flexDirection: "row",
+        flexDirection: "row"
     },
+
+    addButton: {
+        marginTop: hp("1.7%")
+    }
 });
 
 // Fra: https://github.com/lawnstarter/react-native-picker-select/issues/29
@@ -88,15 +100,17 @@ export const barChart = {
 
     barChart: {
         width: wp("93%"),
-        height: hp("55%"),
-        borderWidth: 1
+        height: hp("50%")
     },
 
     chart: {},
 
-    legend: {}
+    legend: {
+        fontSize: hp("1%")
+    },
+    labels: { fontSize: hp("2%") }
 };
 
 export const ActivityIndicatorSize = hp("10%");
 
-export const tabBarIconSize = hp("4.85%");
+export const tabBarIconSize = hp("4.6%");

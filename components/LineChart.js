@@ -9,109 +9,105 @@ import { barChart, styles, ActivityIndicatorSize } from "../styles/styles";
 import Colors from "../constants/Colors";
 
 export default class BarChart extends React.Component {
-    getTrashTypeFractionsFromWeek(trashType, weeksAgo) {
-        let fractionsFromXWeeksAgo = this.props.fractions.filter(
-            fraction =>
-                moment().diff(moment(fraction.date, "DD-MM-YYYY"), "weeks") ==
-                weeksAgo
-        );
-        return fractionsFromXWeeksAgo
-            .filter(fraction => fraction.type == trashType)
-            .reduce(
-                (acc, currentValue) => acc + parseFloat(currentValue.weight),
-                0
-            );
-    }
-
-    getDatesForXAxis(startDate) {
-        let startDateMoment = moment(startDate, "DD-MM-YYYY");
-        let difference = moment().diff(startDateMoment);
-        let jump = difference / 3;
-        let secondDate = startDateMoment.clone().add(jump).format("DD-MM-YYYY");
-        let thirdDate = startDateMoment.clone().add(jump * 2).format("DD-MM-YYYY");
-        return [startDate, secondDate, thirdDate, moment().format("DD-MM-YYYY")];
-    }
-
-    getSortedCorrectly(fractions) {
-        let nonRestFractions = fractions.filter(
-            fraction =>
-                fraction.trashType != "rest" && fraction.trashType != "bio"
-        );
-
+    sortedDateArrayFromFractionsLowToHigh(fractionsAndDates) {
         const onlyUnique = (value, index, self) =>
             self.indexOf(value) === index;
 
-        let dateArray = nonRestFractions
+        return fractionsAndDates
             .map(frac => frac.date)
-            .filter(onlyUnique);
-        dateArray.sort(function(a, b) {
-            return (
-                moment(a, "DD-MM-YYYY").toDate() -
-                moment(b, "DD-MM-YYYY").toDate()
-            );
-        });
-        let totalWeight = fractions.reduce(
+            .filter(onlyUnique)
+            .sort(function(a, b) {
+                return (
+                    moment(a, "DD-MM-YYYY").toDate() -
+                    moment(b, "DD-MM-YYYY").toDate()
+                );
+            });
+    }
+
+    getSummedWeightsForUniqueDays(dateArray, fractionsAndDates) {
+        let totalWeight = fractionsAndDates.reduce(
             (accumulator, currentFraction) =>
                 accumulator + parseFloat(currentFraction.weight),
             0
         );
 
-        let dateArrayWithWeight = [];
+        let summedWeights = [];
         for (var i = 0; i < dateArray.length; i++) {
             let currentDaysWeight = 0;
-            for (var j = 0; j < nonRestFractions.length; j++) {
-                if (nonRestFractions[j].date == dateArray[i]) {
-                    currentDaysWeight += parseFloat(nonRestFractions[j].weight);
+            for (var j = 0; j < fractionsAndDates.length; j++) {
+                if (fractionsAndDates[j].date == dateArray[i]) {
+                    currentDaysWeight += parseFloat(
+                        fractionsAndDates[j].weight
+                    );
                 }
             }
+            summedWeights.push(
+                Math.round((currentDaysWeight / totalWeight) * 100)
+            );
+        }
+        return summedWeights;
+    }
+
+    // Requires: dates.length == weight.length and that all elements corresponds in date <=> weight
+    lineChartDataFromDateAndWeightSums(dates, weights) {
+        let dateArrayWithWeight = [];
+        dates = dates
+            .map(date => moment().diff(moment(date, "DD-MM-YYYY"), "days"))
+            .reverse();
+        for (var i = 0; i < dates.length; i++) {
             dateArrayWithWeight.push({
-                x: dateArray[i],
-                y: Math.round((currentDaysWeight / totalWeight) * 100)
+                x: dates[i],
+                y: weights[i]
             });
         }
-
         return dateArrayWithWeight;
     }
 
-    momentToString(mom) {
-        let date = mom.toDate();
-        let day = date.getDay();
-        let month = date.getMonth() + 1;
-        return (
-            (day.toString().length == 1 ? "0" + day : day) +
-            "-" +
-            (month.toString().length == 1 ? "0" + month : month) +
-            "-" +
-            date.getFullYear()
+    getDatesSinceTodayAndSummedWeight(fractionsAndDates) {
+        let sortedDateArray = this.sortedDateArrayFromFractionsLowToHigh(
+            fractionsAndDates
         );
+        let summedWeights = this.getSummedWeightsForUniqueDays(
+            sortedDateArray,
+            fractionsAndDates
+        );
+
+        return this.lineChartDataFromDateAndWeightSums(
+            sortedDateArray,
+            summedWeights
+        );
+    }
+
+    getSortedCorrectly() {
+        let { fractions } = this.props;
+        let nonRestFractions = fractions.filter(
+            fraction => fraction.type != "rest" && fraction.type != "bio"
+        );
+        return this.getDatesSinceTodayAndSummedWeight(nonRestFractions);
     }
 
     render() {
         let { stillFetching, fractions } = this.props;
-        let chartObjects = fractions.length > 0 && !stillFetching ? this.getSortedCorrectly(fractions) : [];
-        let categories = chartObjects.length > 0 ?  this.getDatesForXAxis(chartObjects[0].x) : undefined;
-        let tickValues = chartObjects.length > 0 ? chartObjects.map(frac => moment().diff(moment(frac.x, "DD-MM-YYYY"), "days")).reverse() : [];
+        let chartObjects =
+            fractions.length > 0 && !stillFetching
+                ? this.getSortedCorrectly()
+                : [];
         return (
             <View style={barChart.barChart}>
                 {chartObjects.length < 2 ? (
-                    <ActivityIndicator
-                        style={styles.ActivityIndicator}
-                        color={Colors.ActivityIndicatorColor}
-                        size={ActivityIndicatorSize}
-                    />
+                    <Text>
+                        Du skal have smidt glas, metal, plastik, pap eller papir
+                        (alt andet end res og bio) ud på to forskellige dage,
+                        før du kan se noget data her.
+                        {"\n"}
+                        Smid noget ud under "Dump"-fanen, for at se noget data
+                        her.
+                    </Text>
                 ) : (
                     <VictoryChart>
-                    <VictoryAxis
-                            dependentAxis
-                            label="%"
-                            style={barChart}
-                            
-                        />
-                        <VictoryAxis
-                        tickValues={tickValues} />
-                        <VictoryLine
-                            data={chartObjects}
-                        />
+                        <VictoryAxis dependentAxis label="%" style={barChart} />
+                        <VictoryAxis />
+                        <VictoryLine data={chartObjects} />
                     </VictoryChart>
                 )}
             </View>
