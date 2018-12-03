@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Orientation from "react-native-orientation";
+
 import { View, ActivityIndicator, Button } from "react-native";
 import { Button as UIButton } from "react-native-material-ui";
+import BarChart from "../components/BarChart";
+import LineChart from "../components/LineChart";
 
 import { appStart, setCurrentUser, getAllFractionsByUserId } from "../actions";
 
 import { currentUser, allFractions, fetchingFractions } from "../selectors";
 
 import { styles, ActivityIndicatorSize } from "../styles/styles";
-import BarChart from "../components/BarChart";
-import LineChart from "../components/LineChart";
 import Colors from "../constants/Colors";
 
 class HomeScreen extends Component {
@@ -17,30 +19,59 @@ class HomeScreen extends Component {
         super(props);
 
         this.state = {
-            showBar: true
+            showBar: true,
+            orientation: ""
         };
 
         this.logOut = this.logOut.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => {
+        // if (this.state && this.state.orientation == "LANDSCAPE") {
+        //     return {
+        //         header: {
+        //             style: {
+        //                 position: "absolute",
+        //                 backgroundColor: "transparent",
+        //                 zIndex: 100,
+        //                 top: 0,
+        //                 left: 0,
+        //                 right: 0
+        //             }
+        //         }
+        //     };
+        // } else if (this.state && this.state.orientation == "PORTRAIT") {
         return {
-            headerTitle: "Hjem",
+            headerTitle: navigation.getParam("hideHeader") ? "" : "Hjem",
+            headerTransparent: navigation.getParam("hideHeader"),
             headerRight: (
-                <Button
+                <UIButton
                     onPress={navigation.getParam("logOut")}
-                    title="Skift bruger"
-                    color={Colors.greenLightTheme}
+                    text="Skift bruger"
                 />
             )
         };
+        // } else {
+        //     return null;
+        // }
     };
 
     componentDidMount() {
+        Orientation.addOrientationListener(this._orientationDidChange);
         this.props.getFractionsByUser(this.props.currentUser);
         this.props.navigation.addListener("didFocus", this._handleDataChange);
         this.props.navigation.setParams({ logOut: this.logOut });
     }
+
+    componentWillUnmount() {
+        // Remember to remove listener
+        Orientation.removeOrientationListener(this._orientationDidChange);
+    }
+
+    _orientationDidChange = orientation => {
+        this.props.navigation.setParams({hideHeader: orientation != "PORTRAIT"});
+        this.setState({ orientation: orientation });
+    };
 
     _handleDataChange = () => {
         this.props.getFractionsByUser(this.props.currentUser);
@@ -52,7 +83,7 @@ class HomeScreen extends Component {
     }
 
     render() {
-        // console.log("Show barChart?: " + this.state.showBar);
+        let { orientation } = this.state;
         if (this.props.fetchingFractions) {
             return (
                 <View style={styles.container}>
@@ -65,22 +96,35 @@ class HomeScreen extends Component {
             );
         } else {
             return (
-                <View style={styles.container}>
-                    <View style={{ flex: 3 }}>
+                <View
+                    style={[
+                        styles.container,
+                        orientation == "LANDSCAPE"
+                            ? { flexDirection: "row" }
+                            : {}
+                    ]}>
+                    <View
+                        style={
+                            orientation == "LANDSCAPE"
+                                ? styles.homeScreenWrapperLandscape
+                                : styles.homeScreenWrapper
+                        }>
                         {this.state.showBar ? (
                             <BarChart
                                 fractions={this.props.fractions}
                                 navigation={this.props.navigation}
                                 stillFetching={!this.props.fetchingFractions}
+                                orientation={orientation}
                             />
                         ) : (
                             <LineChart
                                 fractions={this.props.fractions}
                                 stillFetching={this.props.fetchingFractions}
+                                orientation={orientation}
                             />
                         )}
                     </View>
-                    <View style={{ alignSelf: "center", flex: 1 }}>
+                    <View style={orientation == "LANDSCAPE" ? styles.changeChartButtonLandscape : styles.changeChartButton}>
                         <Button
                             onPress={() =>
                                 this.setState({

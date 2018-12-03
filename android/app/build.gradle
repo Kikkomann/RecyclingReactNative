@@ -155,6 +155,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-orientation')
     implementation project(':react-native-screens')
     implementation project(':react-native-firebase')
     implementation project(':react-native-firebase')

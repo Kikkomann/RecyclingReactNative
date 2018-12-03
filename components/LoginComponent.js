@@ -2,9 +2,8 @@ import React from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
-import { styles, RNpickerStyle } from "../styles/styles";
+import { styles, RNpickerStyle, RNpickerStyleLandscape } from "../styles/styles";
 import strings from "../constants/strings";
-import Colors from "../constants/Colors";
 
 export default class LoginComponent extends React.Component {
     render() {
@@ -16,11 +15,10 @@ export default class LoginComponent extends React.Component {
         return (
             <View>
                 <Text style={styles.loginHeaderText}> Vælg bruger </Text>
-                <View style={styles.loginPicker}>
+                <View style={this.props.orientation == "LANDSCAPE" ? styles.loginPickerLandscape : styles.loginPicker}>
                     {stillFetching ? (
                         <ActivityIndicator
                             style={styles.ActivityIndicator}
-                            color={Colors.ActivityIndicatorColor}
                         />
                     ) : (
                         <RNPickerSelect
@@ -29,7 +27,7 @@ export default class LoginComponent extends React.Component {
                                 value: this.props.currentUser
                             }}
                             items={userNames}
-                            style={RNpickerStyle}
+                            style={this.props.orientation == "LANDSCAPE" ? RNpickerStyleLandscape : RNpickerStyle}
                             onValueChange={this.props.onValueChange}
                         />
                     )}

@@ -11,7 +11,7 @@ import {
     VictoryAxis
 } from "victory-native";
 
-import { barChart } from "../styles/styles";
+import { charts } from "../styles/styles";
 
 export default class BarChart extends React.Component {
     getTrashTypeFractionsFromWeek(trashType, weeksAgo) {
@@ -29,6 +29,8 @@ export default class BarChart extends React.Component {
     }
 
     render() {
+        let { orientation } = this.props;
+
         let currentWeekNumber = moment().isoWeek();
         let chartColors = ["orangered", "limegreen", "gold", "teal"];
         let rest2 = this.getTrashTypeFractionsFromWeek("rest", 2);
@@ -60,13 +62,59 @@ export default class BarChart extends React.Component {
             )
         );
         return (
-            <View style={barChart.barChart}>
-                <View style={barChart.chart}>
+            <View
+                style={
+                    orientation == "LANDSCAPE"
+                        ? charts.wrapperLandscape
+                        : charts.wrapper
+                }>
+                {orientation == "LANDSCAPE" ? (
+                    <View style={charts.legendLandscape}>
+                        <VictoryLegend
+                            style={charts}
+                            // itemsPerRow={2}
+                            orientation={"vertical"}
+                            colorScale={chartColors}
+                            y={20}
+                            data={[
+                                { name: "Rest" },
+                                { name: "Bio" },
+                                { name: "Pap/papir" },
+                                { name: "Glas/metal/plastik" }
+                            ]}
+                        />
+                    </View>
+                ) : (
+                    undefined
+                )}
+                <View
+                    style={
+                        orientation == "LANDSCAPE"
+                            ? charts.chartLandscape
+                            : charts.chart
+                    }>
                     <VictoryChart>
+                        {/* {orientation == "LANDSCAPE" ? (
+                            <VictoryLegend
+                                style={charts}
+                                itemsPerRow={2}
+                                colorScale={chartColors}
+                                x={100}
+                                data={[
+                                    { name: "Rest" },
+                                    { name: "Bio" },
+                                    { name: "Pap/papir" },
+                                    { name: "Glas/metal/plastik" }
+                                ]}
+                            />
+                        ) : (
+                            undefined
+                        )} */}
+
                         <VictoryAxis
                             dependentAxis
                             label="kg."
-                            style={barChart}
+                            style={charts}
                             tickValues={[
                                 0,
                                 max * 0.25,
@@ -78,6 +126,7 @@ export default class BarChart extends React.Component {
                         />
                         <VictoryAxis />
                         <VictoryGroup
+                            // horizontal={true}
                             offset={20}
                             colorScale={chartColors}
                             categories={{
@@ -190,20 +239,24 @@ export default class BarChart extends React.Component {
                         </VictoryGroup>
                     </VictoryChart>
                 </View>
-                <View>
-                    <VictoryLegend
-                        orientation="horizontal"
-                        x={7}
-                        style={barChart}
-                        colorScale={chartColors}
-                        data={[
-                            { name: "Rest" },
-                            { name: "Bio" },
-                            { name: "Pap/papir" },
-                            { name: "Glas/metal/plastik" }
-                        ]}
-                    />
-                </View>
+                {orientation == "LANDSCAPE" ? (
+                    undefined
+                ) : (
+                    <View style={charts.legend}>
+                        <VictoryLegend
+                            orientation="horizontal"
+                            x={7}
+                            style={charts}
+                            colorScale={chartColors}
+                            data={[
+                                { name: "Rest" },
+                                { name: "Bio" },
+                                { name: "Pap/papir" },
+                                { name: "Glas/metal/plastik" }
+                            ]}
+                        />
+                    </View>
+                )}
             </View>
         );
     }

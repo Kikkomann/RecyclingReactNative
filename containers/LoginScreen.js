@@ -1,6 +1,7 @@
 import React from "react";
 import { View, ScrollView } from "react-native";
 import { connect } from "react-redux";
+import Orientation from "react-native-orientation";
 
 import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
@@ -15,7 +16,8 @@ class LoginScreen extends React.Component {
         super(props);
 
         this.state = {
-            login: true
+            login: true,
+            orientation: "",
         };
 
         this.onAddUser = this.onAddUser.bind(this);
@@ -27,8 +29,18 @@ class LoginScreen extends React.Component {
     };
 
     componentDidMount() {
+        Orientation.addOrientationListener(this._orientationDidChange);
         this.props.appStart();
     }
+
+    componentWillUnmount() {
+        // Remember to remove listener
+        Orientation.removeOrientationListener(this._orientationDidChange);
+      }
+
+    _orientationDidChange = orientation => {
+        this.setState({ orientation: orientation });
+    };
 
     onAddUser(firstName, lastName, hubId) {
         this.props.createUser(firstName, lastName, hubId);
@@ -45,23 +57,25 @@ class LoginScreen extends React.Component {
 
     render() {
         let { users, hubs } = this.props;
-        console.log(this.props.fetchingUsers);
+        let { orientation } = this.state;
         return (
             <View style={styles.container}>
                 {/* <ScrollView style={{borderWidth: 3}}> */}
-                <View style={styles.loginScreen}>
+                <View style={orientation == "LANDSCAPE" ? styles.loginScreenLandscape : styles.loginScreen}>
                     {this.state.login ? (
                         <LoginComponent
                             allUsers={users}
                             onValueChange={this.onChooseUser}
                             navigate={() => this.setState({ login: false })}
                             stillFetching={this.props.fetchingUsers}
+                            orientation={orientation}
                         />
                     ) : (
                         <RegisterComponent
                             allHubs={hubs}
                             addUser={this.onAddUser}
                             navigate={() => this.setState({ login: true })}
+                            orientation={orientation}
                         />
                     )}
                 </View>

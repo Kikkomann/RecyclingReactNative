@@ -3,7 +3,7 @@ import { View, Text, ToastAndroid, Button } from "react-native";
 import { TextField } from "react-native-material-textfield";
 import RNPickerSelect from "react-native-picker-select";
 
-import { styles, RNpickerStyle } from "../styles/styles";
+import { styles, RNpickerStyle, RNpickerStyleLandscape } from "../styles/styles";
 import Colors from "../constants/Colors";
 
 export default class RegisterComponent extends React.Component {
@@ -55,14 +55,14 @@ export default class RegisterComponent extends React.Component {
                         value={lastName}
                         onChangeText={lastName => this.setState({ lastName })}
                     />
-                    <View style={styles.loginPicker}>
+                    <View style={this.props.orientation == "LANDSCAPE" ? styles.loginPickerLandscape : styles.loginPicker}>
                         <RNPickerSelect
                             placeholder={{
                                 label: "Vælg tilhørende hub",
                                 value: "hub"
                             }}
                             items={hubNames}
-                            style={RNpickerStyle}
+                            style={this.props.orientation == "LANDSCAPE" ? RNpickerStyleLandscape : RNpickerStyle}
                             enabled={!!hubsFound}
                             onValueChange={hub =>
                                 this.setState({ hubId: hub.id })

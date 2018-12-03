@@ -5,6 +5,7 @@ import {
 } from "react-native-responsive-screen";
 
 import Colors from "../constants/Colors";
+import { yellow } from "ansi-colors";
 
 export const styles = StyleSheet.create({
     container: {
@@ -54,11 +55,28 @@ export const styles = StyleSheet.create({
         alignSelf: "center"
     },
 
+    loginScreenLandscape: {
+        flex: 1,
+        width: wp("60%"),
+        height: hp("75%"),
+        justifyContent: "center",
+        alignSelf: "center"
+    },
+
     loginPicker: {
-        height: hp("8.5%"),
+        height: hp("8.3%"),
         borderWidth: 1,
         marginTop: hp("1.7%"),
-        marginBottom: hp("1.7%")
+        marginBottom: hp("1.7%"),
+        alignItems: "flex-end"
+    },
+
+    loginPickerLandscape: {
+        height: hp("8.3%"),
+        borderWidth: 1,
+        marginTop: hp("1.7%"),
+        marginBottom: hp("1.7%"),
+        alignItems: "flex-end"
     },
 
     addTrashInput: {
@@ -75,6 +93,26 @@ export const styles = StyleSheet.create({
 
     addButton: {
         marginTop: hp("1.7%")
+    },
+
+    changeChartButton: {
+        alignSelf: "center",
+        flex: 1
+    },
+
+    changeChartButtonLandscape: {
+        alignSelf: "center",
+        flex: 2,
+        marginRight: 5,
+        marginLeft: 5,
+    },
+
+    homeScreenWrapper: {
+        flex: 3,
+    },
+
+    homeScreenWrapperLandscape: {
+        flex: 5,
     }
 });
 
@@ -93,21 +131,56 @@ export const RNpickerStyle = {
     underline: { borderTopWidth: 0 }
 };
 
-export const barChart = {
+export const RNpickerStyleLandscape = {
+    inputIOS: {
+        color: "white",
+        paddingTop: 13,
+        paddingHorizontal: 10,
+        paddingBottom: 12
+    },
+    inputAndroid: {
+        width: wp("53%"),
+        alignSelf: "center"
+    },
+    underline: { borderTopWidth: 0 }
+};
+
+export const charts = {
     axisLabel: {
         padding: wp("8%")
     },
 
-    barChart: {
+    wrapper: {
         width: wp("93%"),
-        height: hp("50%")
+        height: hp("54%"),
+        borderWidth: 1,
+        borderColor: Colors.backgroundWhiteTheme,
     },
 
-    chart: {},
+    wrapperLandscape: {
+        flexDirection: "row-reverse",
+        borderWidth: 1,
+        borderColor: Colors.backgroundWhiteTheme,
+    },
+
+    chart: {
+        flex: 10,
+    },
+
+    chartLandscape: {
+        flex: 2,
+    },
 
     legend: {
-        fontSize: hp("1%")
+        flex: 1,
     },
+
+    legendLandscape: {
+        height: wp("50%"),
+        alignSelf: "center",
+        flex: 1,
+    },
+
     labels: { fontSize: hp("2%") }
 };
 

@@ -1,12 +1,11 @@
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text } from "react-native";
 
 import moment from "moment";
 
 import { VictoryChart, VictoryLine, VictoryAxis } from "victory-native";
 
-import { barChart, styles, ActivityIndicatorSize } from "../styles/styles";
-import Colors from "../constants/Colors";
+import { charts } from "../styles/styles";
 
 export default class BarChart extends React.Component {
     sortedDateArrayFromFractionsLowToHigh(fractionsAndDates) {
@@ -87,13 +86,14 @@ export default class BarChart extends React.Component {
     }
 
     render() {
+        let { orientation } = this.props;
         let { stillFetching, fractions } = this.props;
         let chartObjects =
             fractions.length > 0 && !stillFetching
                 ? this.getSortedCorrectly()
                 : [];
         return (
-            <View style={barChart.barChart}>
+            <View style={orientation == "LANDSCAPE" ? charts.wrapperLandscape : charts.wrapper}>
                 {chartObjects.length < 2 ? (
                     <Text>
                         Du skal have smidt glas, metal, plastik, pap eller papir
@@ -105,7 +105,7 @@ export default class BarChart extends React.Component {
                     </Text>
                 ) : (
                     <VictoryChart>
-                        <VictoryAxis dependentAxis label="%" style={barChart} />
+                        <VictoryAxis dependentAxis label="%" style={charts} />
                         <VictoryAxis />
                         <VictoryLine data={chartObjects} />
                     </VictoryChart>
