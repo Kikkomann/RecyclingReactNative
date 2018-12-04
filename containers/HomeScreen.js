@@ -7,9 +7,19 @@ import { Button as UIButton } from "react-native-material-ui";
 import BarChart from "../components/BarChart";
 import LineChart from "../components/LineChart";
 
-import { appStart, setCurrentUser, getAllFractionsByUserId } from "../actions";
+import {
+    appStart,
+    logOut,
+    setCurrentUser,
+    getAllFractionsByUserId
+} from "../actions";
 
-import { currentUser, allFractions, fetchingFractions } from "../selectors";
+import {
+    currentUser,
+    firstLoad,
+    allFractions,
+    fetchingFractions
+} from "../selectors";
 
 import { styles, ActivityIndicatorSize } from "../styles/styles";
 import Colors from "../constants/Colors";
@@ -23,44 +33,27 @@ class HomeScreen extends Component {
             orientation: ""
         };
 
-        this.logOut = this.logOut.bind(this);
+        this.changeUser = this.changeUser.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => {
-        // if (this.state && this.state.orientation == "LANDSCAPE") {
-        //     return {
-        //         header: {
-        //             style: {
-        //                 position: "absolute",
-        //                 backgroundColor: "transparent",
-        //                 zIndex: 100,
-        //                 top: 0,
-        //                 left: 0,
-        //                 right: 0
-        //             }
-        //         }
-        //     };
-        // } else if (this.state && this.state.orientation == "PORTRAIT") {
         return {
             headerTitle: navigation.getParam("hideHeader") ? "" : "Hjem",
             headerTransparent: navigation.getParam("hideHeader"),
             headerRight: (
                 <UIButton
-                    onPress={navigation.getParam("logOut")}
+                    onPress={navigation.getParam("changeUser")}
                     text="Skift bruger"
                 />
             )
         };
-        // } else {
-        //     return null;
-        // }
     };
 
     componentDidMount() {
         Orientation.addOrientationListener(this._orientationDidChange);
         this.props.getFractionsByUser(this.props.currentUser);
         this.props.navigation.addListener("didFocus", this._handleDataChange);
-        this.props.navigation.setParams({ logOut: this.logOut });
+        this.props.navigation.setParams({ changeUser: this.changeUser });
     }
 
     componentWillUnmount() {
@@ -69,7 +62,9 @@ class HomeScreen extends Component {
     }
 
     _orientationDidChange = orientation => {
-        this.props.navigation.setParams({hideHeader: orientation != "PORTRAIT"});
+        this.props.navigation.setParams({
+            hideHeader: orientation != "PORTRAIT"
+        });
         this.setState({ orientation: orientation });
     };
 
@@ -77,14 +72,21 @@ class HomeScreen extends Component {
         this.props.getFractionsByUser(this.props.currentUser);
     };
 
-    logOut() {
-        this.props.setCurrentUser(null);
+    changeUser() {
+        console.log(this.props.logOut);
+        this.props.logOut();
         this.props.navigation.navigate("Auth");
     }
 
     render() {
+        let {
+            firstLoad,
+            fractions,
+            navigation,
+            fetchingFractions
+        } = this.props;
         let { orientation } = this.state;
-        if (this.props.fetchingFractions) {
+        if (fetchingFractions && firstLoad) {
             return (
                 <View style={styles.container}>
                     <ActivityIndicator
@@ -111,20 +113,25 @@ class HomeScreen extends Component {
                         }>
                         {this.state.showBar ? (
                             <BarChart
-                                fractions={this.props.fractions}
-                                navigation={this.props.navigation}
-                                stillFetching={!this.props.fetchingFractions}
+                                fractions={fractions}
+                                navigation={navigation}
+                                stillFetching={!fetchingFractions}
                                 orientation={orientation}
                             />
                         ) : (
                             <LineChart
-                                fractions={this.props.fractions}
-                                stillFetching={this.props.fetchingFractions}
+                                fractions={fractions}
+                                stillFetching={fetchingFractions}
                                 orientation={orientation}
                             />
                         )}
                     </View>
-                    <View style={orientation == "LANDSCAPE" ? styles.changeChartButtonLandscape : styles.changeChartButton}>
+                    <View
+                        style={
+                            orientation == "LANDSCAPE"
+                                ? styles.changeChartButtonLandscape
+                                : styles.changeChartButton
+                        }>
                         <Button
                             onPress={() =>
                                 this.setState({
@@ -152,13 +159,15 @@ class HomeScreen extends Component {
 //  };
 
 const mapStateToProps = (state, ownProps) => ({
-    fetchingFractions: fetchingFractions(state),
     currentUser: currentUser(state),
+    firstLoad: firstLoad(state),
+    fetchingFractions: fetchingFractions(state),
     fractions: allFractions(state)
 });
 
 const mapDispatchToProps = {
     appStart,
+    logOut,
     setCurrentUser,
     getFractionsByUser: getAllFractionsByUserId
 };

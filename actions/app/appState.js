@@ -6,8 +6,8 @@ export function appStart() {
     };
 }
 
-export function afterFirstLoad() {
+export function logOut() {
     return {
-        type: types.SET_FIRST_LOAD
+        type: types.LOG_OUT,
     };
 }

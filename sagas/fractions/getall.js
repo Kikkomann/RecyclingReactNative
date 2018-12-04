@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select } from "redux-saga/effects";
+import { takeLatest, call, put, select, all } from "redux-saga/effects";
 import firebase from "react-native-firebase";
 import ReduxSagaFirebase from "redux-saga-firebase";
 import * as types from "../../actions/types";
@@ -27,11 +27,14 @@ function* doGetAllFractionsByUser() {
                 isClean: value.isClean,
                 type: value.type,
                 userId: value.userId,
-                date: value.date,
+                date: value.date
             });
         }
         // dispatch a success action to the store with the fractions
-        yield put({ type: types.FRACTIONS_GETALL_SUCCESS, fractionModels });
+        yield all([
+            put({ type: types.FRACTIONS_GETALL_SUCCESS, fractionModels }),
+            put({ type: types.SET_FIRST_LOAD, firstLoad: false })
+        ]);
 
         //TODO: Kan jeg bruge dette, hvis jeg ikke behøver id?
         // const fractions = yield call(reduxSagaFirebase.database.read, "Fraction/");

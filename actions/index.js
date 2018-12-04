@@ -1,5 +1,5 @@
 export * from "./app/currentUser";
-export * from "./app/appStart";
+export * from "./app/appState";
 
 export * from "./hub/getAll";
 
