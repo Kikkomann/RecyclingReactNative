@@ -35,15 +35,6 @@ function* doGetAllFractionsByUser() {
             put({ type: types.FRACTIONS_GETALL_SUCCESS, fractionModels }),
             put({ type: types.SET_FIRST_LOAD, firstLoad: false })
         ]);
-
-        //TODO: Kan jeg bruge dette, hvis jeg ikke behøver id?
-        // const fractions = yield call(reduxSagaFirebase.database.read, "Fraction/");
-        // let fractionsModels = Object.values(fractions).map(fractions => ({
-        //     id: fractions.id,
-        //     name: fractions.Name
-        // }));
-        // // dispatch a success action to the store with the fractions
-        // yield put({ type: types.FRACTIONS_GETALL_SUCCESS, fractionsModels });
     } catch (error) {
         // dispatch a failure action to the store with the error
         yield put({ type: types.FRACTIONS_GETALL_ERROR, error });
