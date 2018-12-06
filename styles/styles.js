@@ -5,7 +5,6 @@ import {
 } from "react-native-responsive-screen";
 
 import Colors from "../constants/Colors";
-import { yellow } from "ansi-colors";
 
 export const styles = StyleSheet.create({
     container: {
@@ -44,7 +43,9 @@ export const styles = StyleSheet.create({
         fontSize: hp("3%"),
         fontWeight: "bold",
         alignSelf: "flex-start",
-        marginBottom: hp("1.7%")
+        marginBottom: hp("1.7%"),
+        color: Colors.naestvedBlueLight,
+        textShadowColor: Colors.naestvedBlueDark,
     },
 
     loginScreen: {
@@ -66,6 +67,7 @@ export const styles = StyleSheet.create({
     loginPicker: {
         height: hp("8.3%"),
         borderWidth: 1,
+        borderColor: Colors.greenDarkTheme,
         marginTop: hp("1.7%"),
         marginBottom: hp("1.7%"),
         alignItems: "flex-end"
@@ -74,6 +76,7 @@ export const styles = StyleSheet.create({
     loginPickerLandscape: {
         height: hp("8.3%"),
         borderWidth: 1,
+        borderColor: Colors.greenDarkTheme,
         marginTop: hp("1.7%"),
         marginBottom: hp("1.7%"),
         alignItems: "flex-end"
@@ -97,7 +100,7 @@ export const styles = StyleSheet.create({
 
     changeChartButton: {
         alignSelf: "center",
-        flex: 1
+        flex: 1,
     },
 
     changeChartButtonLandscape: {
@@ -108,11 +111,11 @@ export const styles = StyleSheet.create({
     },
 
     homeScreenWrapper: {
-        flex: 3,
+        flex: 5,
     },
 
     homeScreenWrapperLandscape: {
-        flex: 5,
+        flex: 9,
     }
 });
 
@@ -126,7 +129,7 @@ export const RNpickerStyle = {
     },
     inputAndroid: {
         width: wp("70%"),
-        alignSelf: "center"
+        alignSelf: "center",
     },
     underline: { borderTopWidth: 0 }
 };
@@ -152,7 +155,7 @@ export const charts = {
 
     wrapper: {
         width: wp("93%"),
-        height: hp("54%"),
+        height: hp("60%"),
         borderWidth: 1,
         borderColor: Colors.backgroundWhiteTheme,
     },
@@ -163,8 +166,16 @@ export const charts = {
         borderColor: Colors.backgroundWhiteTheme,
     },
 
+    chartHeader: {
+        fontSize: hp("3%"),
+        fontWeight: "bold",
+        alignSelf: "center",
+        color: Colors.naestvedBlueLight,
+        top: hp("3%"),
+    },
+
     chart: {
-        flex: 10,
+        flex: 9,
     },
 
     chartLandscape: {

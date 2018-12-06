@@ -33,6 +33,10 @@ class AddFractionScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: "Aflever skrald",
+            headerStyle: {
+                backgroundColor: Colors.greenLightLightTheme,
+            },
+            headerTransparent: navigation.getParam("hideHeader"),
             headerRight: (
                 <UIButton
                     onPress={navigation.getParam("logOut")}
@@ -162,7 +166,7 @@ class AddFractionScreen extends React.Component {
                             style={styles.addButton}
                             onPress={this.onAddTrash}
                             title="Tilføj"
-                            color={Colors.greenLightTheme}
+                            color={Colors.naestvedBlueLight}
                         />
                     </View>
                 </ScrollView>

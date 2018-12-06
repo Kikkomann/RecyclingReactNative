@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Orientation from "react-native-orientation";
 
-import { View, ActivityIndicator, Button } from "react-native";
+import { View, Text, ActivityIndicator, Button, StatusBar } from "react-native";
 import { Button as UIButton } from "react-native-material-ui";
 import BarChart from "../components/BarChart";
 import LineChart from "../components/LineChart";
@@ -33,12 +33,19 @@ class HomeScreen extends Component {
             orientation: ""
         };
 
+        this.focusListener = null;
+
         this.changeUser = this.changeUser.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: navigation.getParam("hideHeader") ? "" : "Hjem",
+            headerTitle: navigation.getParam("hideHeader") ? "" : "Affaldsgrafer",
+            headerStyle: {
+                backgroundColor: navigation.getParam("hideHeader")
+                    ? null
+                    : Colors.greenLightLightTheme
+            },
             headerTransparent: navigation.getParam("hideHeader"),
             headerRight: (
                 <UIButton
@@ -52,12 +59,16 @@ class HomeScreen extends Component {
     componentDidMount() {
         Orientation.addOrientationListener(this._orientationDidChange);
         this.props.getFractionsByUser(this.props.currentUser);
-        this.props.navigation.addListener("didFocus", this._handleDataChange);
+        this.focusListener = this.props.navigation.addListener(
+            "didFocus",
+            this._handleDataChange
+        );
         this.props.navigation.setParams({ changeUser: this.changeUser });
     }
 
     componentWillUnmount() {
-        // Remember to remove listener
+        // Remember to remove listeners
+        this.focusListener.remove();
         Orientation.removeOrientationListener(this._orientationDidChange);
     }
 
@@ -73,7 +84,6 @@ class HomeScreen extends Component {
     };
 
     changeUser() {
-        console.log(this.props.logOut);
         this.props.logOut();
         this.props.navigation.navigate("Auth");
     }
@@ -105,6 +115,10 @@ class HomeScreen extends Component {
                             ? { flexDirection: "row" }
                             : {}
                     ]}>
+                    <StatusBar
+                        barStyle="light-content"
+                        backgroundColor={Colors.greenDarkTheme}
+                    />
                     <View
                         style={
                             orientation == "LANDSCAPE"
@@ -139,11 +153,15 @@ class HomeScreen extends Component {
                                 })
                             }
                             title={
-                                "Vis " +
-                                (this.state.showBar ? "sorterings" : "total") +
-                                "graf"
+                                orientation == "LANDSCAPE"
+                                    ? "SKIFT GRAF"
+                                    : "Vis " +
+                                      (this.state.showBar
+                                          ? "sorterings"
+                                          : "total") +
+                                      "graf"
                             }
-                            color={Colors.greenLightTheme}
+                            color={Colors.naestvedBlueLight}
                         />
                     </View>
                 </View>

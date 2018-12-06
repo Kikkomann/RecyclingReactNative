@@ -30,7 +30,7 @@ export default class AuthLoadingScreen extends React.Component {
                     color={Colors.ActivityIndicatorColor}
                     size={ActivityIndicatorSize}
                 />
-                <StatusBar barStyle="default" />
+                <StatusBar barStyle = "light-content" backgroundColor = {Colors.greenDarkTheme}/>
             </View>
         );
     }

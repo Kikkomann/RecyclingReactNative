@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import Orientation from "react-native-orientation";
 
@@ -10,6 +10,7 @@ import { appStart, createUser, setCurrentUser } from "../actions";
 
 import { styles } from "../styles/styles";
 import { fetchingUsers, allHubs, allUsers, currentUser } from "../selectors";
+import Colors from "../constants/Colors";
 
 class LoginScreen extends React.Component {
     constructor(props) {
@@ -60,6 +61,7 @@ class LoginScreen extends React.Component {
         let { orientation } = this.state;
         return (
             <View style={styles.container}>
+            <StatusBar barStyle = "light-content" backgroundColor = {Colors.greenDarkTheme}/>
                 {/* <ScrollView style={{borderWidth: 3}}> */}
                 <View style={orientation == "LANDSCAPE" ? styles.loginScreenLandscape : styles.loginScreen}>
                     {this.state.login ? (

@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 import moment from "moment";
 
@@ -68,6 +68,10 @@ export default class BarChart extends React.Component {
                         ? charts.wrapperLandscape
                         : charts.wrapper
                 }>
+
+                {orientation == "LANDSCAPE" ? null : <Text style={charts.chartHeader}>
+                            Samlet affald de sidste tre uger:
+                        </Text>}
                 {orientation == "LANDSCAPE" ? (
                     <View style={charts.legendLandscape}>
                         <VictoryLegend
@@ -75,7 +79,6 @@ export default class BarChart extends React.Component {
                             // itemsPerRow={2}
                             orientation={"vertical"}
                             colorScale={chartColors}
-                            y={20}
                             data={[
                                 { name: "Rest" },
                                 { name: "Bio" },
@@ -93,24 +96,10 @@ export default class BarChart extends React.Component {
                             ? charts.chartLandscape
                             : charts.chart
                     }>
+                    {orientation == "LANDSCAPE" ? <Text style={charts.chartHeader}>
+                            Samlet affald de sidste tre uger:
+                        </Text> : null}
                     <VictoryChart>
-                        {/* {orientation == "LANDSCAPE" ? (
-                            <VictoryLegend
-                                style={charts}
-                                itemsPerRow={2}
-                                colorScale={chartColors}
-                                x={100}
-                                data={[
-                                    { name: "Rest" },
-                                    { name: "Bio" },
-                                    { name: "Pap/papir" },
-                                    { name: "Glas/metal/plastik" }
-                                ]}
-                            />
-                        ) : (
-                            undefined
-                        )} */}
-
                         <VictoryAxis
                             dependentAxis
                             label="kg."

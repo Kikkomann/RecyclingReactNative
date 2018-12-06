@@ -11,14 +11,11 @@ import Travel from "../components/Travel";
 import { setCurrentUser } from "../actions";
 
 import { styles } from "../styles/styles";
+import Colors from "../constants/Colors"
 
 class InformationScreen extends React.Component {
     constructor(props) {
         super(props);
-
-        onChange = state => {
-            this.setState(state);
-        };
 
         this.state = {
             greyZone: true,
@@ -34,7 +31,11 @@ class InformationScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: "Info",
+            headerTitle: "Info & Guides",
+            headerStyle: {
+                backgroundColor: Colors.greenLightLightTheme,
+            },
+            headerTransparent: navigation.getParam("hideHeader"),
             headerRight: (
                 <Button
                     onPress={navigation.getParam("logOut")}

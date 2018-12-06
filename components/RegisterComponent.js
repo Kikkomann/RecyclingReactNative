@@ -72,7 +72,7 @@ export default class RegisterComponent extends React.Component {
                     <Button
                         onPress={this.addUser}
                         title="Tilføj"
-                        color={Colors.greenLightTheme}
+                        color={Colors.naestvedBlueLight}
                     />
                 </View>
 

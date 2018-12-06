@@ -6,9 +6,7 @@ import * as selectors from "../../selectors";
 
 // worker saga: makes the api call when watcher saga sees the action
 function* doAppStart() {
-    let fetchTriesCounter = 0;
     const reduxSagaFirebase = new ReduxSagaFirebase(firebase.app());
-    do {
         try {
             const users = yield call(reduxSagaFirebase.database.read, "User/");
             let userModels = [];
@@ -42,7 +40,6 @@ function* doAppStart() {
             // dispatch a failure action to the store with the error
             yield put({ type: types.HUBS_GETALL_ERROR, error });
         }
-    } while ((yield select(selectors.fetchingUsers)) && (yield select(selectors.fetchingHubs)) && fetchTriesCounter < 5);
 }
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga

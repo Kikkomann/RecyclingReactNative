@@ -92,25 +92,38 @@ export default class BarChart extends React.Component {
             fractions.length > 0 && !stillFetching
                 ? this.getSortedCorrectly()
                 : [];
-        return (
-            <View style={orientation == "LANDSCAPE" ? charts.wrapperLandscape : charts.wrapper}>
-                {chartObjects.length < 2 ? (
-                    <Text>
-                        Du skal have smidt glas, metal, plastik, pap eller papir
-                        (alt andet end res og bio) ud på to forskellige dage,
-                        før du kan se noget data her.
-                        {"\n"}
-                        Smid noget ud under "Dump"-fanen, for at se noget data
-                        her.
-                    </Text>
-                ) : (
-                    <VictoryChart>
-                        <VictoryAxis dependentAxis label="%" style={charts} />
-                        <VictoryAxis />
-                        <VictoryLine data={chartObjects} />
-                    </VictoryChart>
-                )}
-            </View>
-        );
+        if (chartObjects.length < 2) {
+            return (
+                <Text>
+                    Du skal have smidt glas, metal, plastik, pap eller papir
+                    (alt andet end res og bio) ud på to forskellige dage, før du
+                    kan se noget data her.
+                    {"\n"}
+                    Smid noget ud under "Dump"-fanen, for at se noget data her.
+                </Text>
+            );
+        } else {
+            return (
+                <View
+                    style={
+                        orientation == "LANDSCAPE"
+                            ? [charts.wrapperLandscape, {flexDirection: "column", alignSelf: "flex-start"}]
+                            : charts.wrapper
+                    }>
+                        <Text style={charts.chartHeader}>
+                            Andel af ikke-restaffald der er smidt ud:
+                        </Text>
+                        <VictoryChart>
+                            <VictoryAxis
+                                dependentAxis
+                                label="%"
+                                style={charts}
+                            />
+                            <VictoryAxis style={charts} label="Dage siden projektets start" />
+                            <VictoryLine data={chartObjects} />
+                        </VictoryChart>
+                </View>
+            );
+        }
     }
 }
