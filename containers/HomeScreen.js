@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Orientation from "react-native-orientation";
 
-import { View, Text, ActivityIndicator, Button, StatusBar } from "react-native";
+import { View, ActivityIndicator, Button, StatusBar } from "react-native";
 import { Button as UIButton } from "react-native-material-ui";
 import BarChart from "../components/BarChart";
 import LineChart from "../components/LineChart";
@@ -99,6 +99,10 @@ class HomeScreen extends Component {
         if (fetchingFractions && firstLoad) {
             return (
                 <View style={styles.container}>
+                <StatusBar
+                        barStyle="light-content"
+                        backgroundColor={Colors.greenDarkTheme}
+                    />
                     <ActivityIndicator
                         style={styles.ActivityIndicator}
                         color={Colors.ActivityIndicatorColor}

@@ -43,6 +43,17 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 27        // version of compile sdk used for project
+                buildToolsVersion '28.0.3'    // version of build tool used for project
+            }
+        }
+    }
+}
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'

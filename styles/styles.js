@@ -167,7 +167,7 @@ export const charts = {
     },
 
     chartHeader: {
-        fontSize: hp("3%"),
+        fontSize: hp("2.5%"),
         fontWeight: "bold",
         alignSelf: "center",
         color: Colors.naestvedBlueLight,
