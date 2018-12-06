@@ -143,9 +143,9 @@ export const RNpickerStyleLandscape = {
     },
     inputAndroid: {
         width: wp("53%"),
-        alignSelf: "center"
+        alignSelf: "center",
     },
-    underline: { borderTopWidth: 0 }
+    underline: { borderTopWidth: 0 },
 };
 
 export const charts = {
